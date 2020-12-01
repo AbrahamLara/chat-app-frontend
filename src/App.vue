@@ -1,21 +1,26 @@
 <template>
   <v-app>
     <v-main>
-      <v-theme-provider root>
-        <router-view></router-view>
-      </v-theme-provider>
+      <app-bar></app-bar>
+      <router-view></router-view>
     </v-main>
   </v-app>
 </template>
 
-<style></style>
+<style>
+.pa-sai {
+  padding: env(safe-area-inset-top) env(safe-area-inset-right)
+    env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+</style>
 
 <script lang="ts">
-import Vue from 'vue';
-import { Component } from 'vue-property-decorator';
+import AppBar from '@/components/AppBar.vue';
 
-@Component({
-  name: 'app'
-})
-export default class App extends Vue {}
+export default {
+  name: 'app',
+  components: {
+    'app-bar': AppBar
+  }
+};
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <v-menu rounded offset-y>
+  <v-menu rounded offset-y nudge-left="60px">
     <template v-slot:activator="{ attrs, on }">
       <v-btn
         elevation="0"
@@ -63,14 +63,15 @@ interface ThemeListItem {
 // Dark theme name.
 export const DARK = 'dark';
 // Light theme name.
-const LIGHT = 'light';
+export const LIGHT = 'light';
 
-@Component({
-  name: 'settings-btn'
-})
+const DARK_BACKGROUND_COLOR = '#121212';
+const LIGHT_BACKGROUND_COLOR = '#fff';
+
+@Component({ name: 'settings-btn' })
 export default class Settings extends Vue {
   // The themes to display in the settings dropdown
-  themes: ThemeListItem[] = [
+  readonly themes: ThemeListItem[] = [
     { title: LIGHT, icon: 'mdi-white-balance-sunny' },
     { title: DARK, icon: 'mdi-weather-night' }
   ];
@@ -100,7 +101,12 @@ export default class Settings extends Vue {
    */
   @Emit('themeChange')
   setAndReturnTheme(theme: string) {
-    this.$vuetify.theme.dark = theme === DARK;
+    const usingDarkTheme = theme === DARK;
+    this.$vuetify.theme.dark = usingDarkTheme;
+    // Update the body background color as well for consistency.
+    document.body.style.backgroundColor = usingDarkTheme
+      ? DARK_BACKGROUND_COLOR
+      : LIGHT_BACKGROUND_COLOR;
     return theme;
   }
 

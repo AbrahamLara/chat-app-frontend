@@ -1,29 +1,57 @@
 <template>
-  <div class="splash">
-    <v-app-bar :class="appBarClass" app flat>
-      <v-spacer></v-spacer>
-      <settings-btn @themeChange="handleThemeChange"></settings-btn>
-    </v-app-bar>
-    <v-divider></v-divider>
-    <about-view></about-view>
+  <div class="splash-view d-flex flex-column-reverse flex-md-row">
+    <div class="d-lg-flex align-center justify-center col-md-8 col-lg-6">
+      <about-view></about-view>
+    </div>
+    <div
+      class="splash-view_welcome-panel d-flex flex-column align-center justify-center col-md-4 col-lg-6"
+    >
+      <v-card class="text-h4 text-lg-h1 pa-3 pt-1 pb-1 pa-lg-5 mr-16" tile flat>
+        Welcome
+      </v-card>
+      <v-card class="text-h4 text-lg-h1 pa-3 pt-1 pb-1 pa-lg-5 mt-4" tile flat>
+        to
+      </v-card>
+      <v-card
+        class="text-h4 text-lg-h1 pa-3 pt-1 pb-1 pa-lg-5 mt-4 ml-16"
+        tile
+        flat
+      >
+        ChatApp!
+      </v-card>
+    </div>
   </div>
 </template>
 
-<script lang="ts">
-import Vue from 'vue';
-import About from '@/components/About.vue';
-import Settings, { DARK } from '@/components/Settings.vue';
-import { Component } from 'vue-property-decorator';
+<style>
+.splash-view {
+  height: 100%;
+}
 
-@Component({ components: { 'about-view': About, 'settings-btn': Settings } })
-export default class Splash extends Vue {
-  // We use the "white" class name for the app-bar's background color because using the 'color' prop will not allow
-  // us to take advantage of the app-bar's dark mode when enabled.
-  appBarClass = 'white';
+.splash-view_welcome-panel {
+  background-color: antiquewhite;
+  background-image: url('../assets/panel-background.jpg');
+  background-position: 70% 30%;
+  background-size: cover;
+}
 
-  // Handles the theme changes for the app in order to update the background color of the app-bar as necessary.
-  handleThemeChange(theme: string) {
-    this.appBarClass = theme === DARK ? '' : 'white';
+.splash-view_welcome-panel .v-card {
+  user-select: none;
+}
+
+@media screen and (min-width: 1264px) {
+  .splash-view_welcome-panel {
+    height: inherit;
   }
 }
+</style>
+
+<script>
+import About from '@/components/About.vue';
+
+export default {
+  components: {
+    'about-view': About
+  }
+};
 </script>
