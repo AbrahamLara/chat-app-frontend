@@ -1,0 +1,10 @@
+<template>
+  <div class="text-center">
+    <div class="pa-10">
+      <div class="headline text-sm-h4">Page Not Found</div>
+      <div class="text-subtitle-1 text-sm-h5 pt-5">
+        Click the application name in the navbar to return home.
+      </div>
+    </div>
+  </div>
+</template>
