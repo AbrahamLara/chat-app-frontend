@@ -7,7 +7,7 @@ import { THEME } from '@/utils/theme';
 const appMutations: MutationTree<AppState> = {
   [SET_THEME]: (state, theme: THEME) => {
     state.theme = theme;
-  }
+  },
 };
 
 export default appMutations;

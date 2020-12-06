@@ -25,7 +25,7 @@ describe('Settings.vuex.test.ts', () => {
       // Default store state.
       state: { theme: THEME.LIGHT },
       mutations,
-      actions
+      actions,
     });
     wrapper = shallowMount(Settings, { localVue, store });
   });
@@ -71,7 +71,7 @@ describe('Settings.vuex.test.ts', () => {
     const mockMediaQueryList = {
       // Mock the system theme being dark by setting 'matches' to true.
       matches: true,
-      onchange: () => {}
+      onchange: () => {},
     } as any;
     // Mock addEventListener that will add an onchange method to update app theme.
     mockMediaQueryList.addEventListener = jest.fn(() => {

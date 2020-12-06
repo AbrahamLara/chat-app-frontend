@@ -25,8 +25,8 @@ import { SET_THEME } from '@/store/actions';
 @Component({
   name: 'app',
   components: {
-    'app-bar': AppBar
-  }
+    'app-bar': AppBar,
+  },
 })
 export default class App extends Vue {
   unsubscribe!: () => void;

@@ -51,7 +51,7 @@ import About from '@/components/About.vue';
 
 export default {
   components: {
-    'about-view': About
-  }
+    'about-view': About,
+  },
 };
 </script>

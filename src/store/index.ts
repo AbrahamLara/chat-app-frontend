@@ -8,9 +8,9 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    theme: THEME.LIGHT
+    theme: THEME.LIGHT,
   },
   mutations: appMutations,
   actions: appActions,
-  modules: {}
+  modules: {},
 });

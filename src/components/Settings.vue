@@ -69,7 +69,7 @@ export default class Settings extends Vue {
   // The themes to display in the settings dropdown
   readonly themes: ThemeListItem[] = [
     { title: THEME.LIGHT, icon: 'mdi-white-balance-sunny' },
-    { title: THEME.DARK, icon: 'mdi-weather-night' }
+    { title: THEME.DARK, icon: 'mdi-weather-night' },
   ];
   // This variable solely exists for testing purposes.
   showMenu = false;

@@ -17,7 +17,7 @@ describe('AppBar.vue.test.ts', () => {
       localVue,
       vuetify,
       router,
-      ...options
+      ...options,
     });
   };
 

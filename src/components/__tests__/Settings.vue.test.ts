@@ -51,7 +51,7 @@ describe('Settings.vue.test.ts', () => {
     // Create a mock MediaQueryList object with event listener methods.
     const mockMediaQueryList = {
       addEventListener: jest.fn(),
-      removeEventListener: jest.fn()
+      removeEventListener: jest.fn(),
     } as any;
     // Mock window.matchMedia.
     window.matchMedia = jest.fn(() => mockMediaQueryList);

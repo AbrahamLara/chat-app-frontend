@@ -5,5 +5,5 @@ import customThemeConfig from '@/plugins/vuetify/theme';
 Vue.use(Vuetify);
 
 export default new Vuetify({
-  theme: customThemeConfig
+  theme: customThemeConfig,
 });

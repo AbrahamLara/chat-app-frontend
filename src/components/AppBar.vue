@@ -9,7 +9,7 @@
       <div
         :class="{
           'white--text text-h5 d-flex align-center': true,
-          'grey--text text--darken-4': !usingDarkMode
+          'grey--text text--darken-4': !usingDarkMode,
         }"
       >
         ChatApp
@@ -54,7 +54,7 @@ import { THEME } from '@/utils/theme';
 
 @Component({
   name: 'app-bar',
-  components: { 'settings-btn': Settings }
+  components: { 'settings-btn': Settings },
 })
 export default class AppBar extends Vue {
   // Prop sync is used so that the app bar can handle determining if dark mode is in use by just receiving the theme as
