@@ -8,6 +8,10 @@
 </template>
 
 <style>
+/*
+  Used so content wouldn't flow out of a device's safe area like where a notch would be on landscape mode for devices
+  with them.
+*/
 .pa-sai {
   padding: env(safe-area-inset-top) env(safe-area-inset-right)
     env(safe-area-inset-bottom) env(safe-area-inset-left);

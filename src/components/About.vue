@@ -42,10 +42,10 @@
   </div>
 </template>
 
-<style>
-@media screen and (min-width: 960px) {
-  .about-container {
-    width: 600px;
-  }
-}
+<style lang="sass">
+@import '~vuetify/src/components/VStepper/_variables.scss'
+
+.about-container
+  @media screen and (min-width: map-get($grid-breakpoints, 'md'))
+    width: 600px
 </style>

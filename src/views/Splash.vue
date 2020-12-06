@@ -23,27 +23,24 @@
   </div>
 </template>
 
-<style>
-.splash-view {
-  height: 100%;
-}
+<style lang="sass">
+@import '~vuetify/src/components/VStepper/_variables.scss'
 
-.splash-view_welcome-panel {
-  background-color: antiquewhite;
-  background-image: url('../assets/panel-background.jpg');
-  background-position: 70% 30%;
-  background-size: cover;
-}
+.splash-view
+  height: 100%
 
-.splash-view_welcome-panel .v-card {
-  user-select: none;
-}
+.splash-view_welcome-panel
+  background-color: antiquewhite
+  background-image: url('../assets/panel-background.jpg')
+  background-position: 70% 30%
+  background-size: cover
 
-@media screen and (min-width: 1264px) {
-  .splash-view_welcome-panel {
-    height: inherit;
-  }
-}
+.splash-view_welcome-panel .v-card
+  user-select: none
+
+.splash-view_welcome-panel
+  @media screen and (min-width: map-get($grid-breakpoints, 'lg'))
+    height: inherit
 </style>
 
 <script>
