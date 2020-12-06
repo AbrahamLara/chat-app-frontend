@@ -1,12 +1,19 @@
 <template>
   <v-app-bar
-    :class="{ white: usingLightMode, 'pa-sai': true }"
+    :class="{ 'pa-sai': true, white: !usingDarkMode }"
     app
     elevation="1"
     fixed
   >
-    <router-link class="grey--text text--darken-4 text-decoration-none" to="/">
-      <div class="text-h5 d-flex align-center">ChatApp</div>
+    <router-link class="text-decoration-none" to="/">
+      <div
+        :class="{
+          'white--text text-h5 d-flex align-center': true,
+          'grey--text text--darken-4': !usingDarkMode
+        }"
+      >
+        ChatApp
+      </div>
     </router-link>
     <v-spacer></v-spacer>
     <div class="d-flex align-center">
@@ -27,7 +34,7 @@
         </div>
       </router-link>
       <v-divider class="mx-2 my-auto" style="height: 25px" vertical></v-divider>
-      <settings-btn @themeChange="handleThemeChange"></settings-btn>
+      <settings-btn></settings-btn>
     </div>
   </v-app-bar>
 </template>
@@ -41,21 +48,21 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import Settings, { LIGHT } from '@/components/Settings.vue';
-import { Component } from 'vue-property-decorator';
+import Settings from '@/components/Settings.vue';
+import { Component, PropSync } from 'vue-property-decorator';
+import { THEME } from '@/utils/theme';
 
 @Component({
   name: 'app-bar',
   components: { 'settings-btn': Settings }
 })
 export default class AppBar extends Vue {
-  // We use the "white" class name for the app-bar's background color because using the 'color' prop will not allow
-  // us to take advantage of the app-bar's dark mode when enabled.
-  usingLightMode = true;
+  // Prop sync is used so that the app bar can handle determining if dark mode is in use by just receiving the theme as
+  // it changes.
+  @PropSync('theme', String) syncedTheme!: string;
 
-  // Handles the theme changes for the app in order to update the background color of the app-bar as necessary.
-  handleThemeChange(theme: string) {
-    this.usingLightMode = theme === LIGHT;
+  get usingDarkMode() {
+    return this.syncedTheme === THEME.DARK;
   }
 }
 </script>

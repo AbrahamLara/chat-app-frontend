@@ -1,0 +1,181 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AppBar.vue.test.ts renders dark mode correctly 1`] = `
+<header
+  class="v-sheet theme--light elevation-1 v-toolbar v-app-bar v-app-bar--fixed pa-sai"
+  style="height: 64px; margin-top: 0px; transform: translateY(0px); left: 0px; right: 0px;"
+>
+  <div
+    class="v-toolbar__content"
+    style="height: 64px;"
+  >
+    <a
+      aria-current="page"
+      class="text-decoration-none router-link-exact-active router-link-active"
+      href="#/"
+    >
+      <div
+        class="white--text text-h5 d-flex align-center"
+      >
+        
+      ChatApp
+    
+      </div>
+    </a>
+     
+    <div
+      class="spacer"
+    />
+     
+    <div
+      class="d-flex align-center"
+    >
+      <a
+        class="text-decoration-none"
+        href="#/#login"
+      >
+        <div
+          class="auth-btn text--secondary text-center rounded pa-2 pl-2 pr-2"
+        >
+          
+        Login
+      
+        </div>
+      </a>
+       
+      <a
+        class="text-decoration-none"
+        href="#/#signup"
+      >
+        <div
+          class="auth-btn text--secondary text-center rounded pa-2 pl-2 pr-2"
+        >
+          
+        Signup
+      
+        </div>
+      </a>
+       
+      <hr
+        aria-orientation="vertical"
+        class="mx-2 my-auto v-divider v-divider--vertical theme--light"
+        role="separator"
+        style="height: 25px;"
+      />
+       
+      <div
+        class="v-menu"
+      >
+        <button
+          aria-expanded="false"
+          aria-haspopup="true"
+          class="v-btn v-btn--flat v-btn--icon v-btn--round theme--light elevation-0 v-size--default"
+          role="button"
+          style="font-size: 16px;"
+          type="button"
+        >
+          <span
+            class="v-btn__content"
+          >
+            <i
+              aria-hidden="true"
+              class="v-icon notranslate mdi mdi-cog-outline theme--light"
+            />
+          </span>
+        </button>
+        <!---->
+      </div>
+    </div>
+  </div>
+</header>
+`;
+
+exports[`AppBar.vue.test.ts renders light mode correctly 1`] = `
+<header
+  class="v-sheet theme--light elevation-1 v-toolbar v-app-bar v-app-bar--fixed pa-sai white"
+  style="height: 64px; margin-top: 0px; transform: translateY(0px); left: 0px; right: 0px;"
+>
+  <div
+    class="v-toolbar__content"
+    style="height: 64px;"
+  >
+    <a
+      aria-current="page"
+      class="text-decoration-none router-link-exact-active router-link-active"
+      href="#/"
+    >
+      <div
+        class="white--text text-h5 d-flex align-center grey--text text--darken-4"
+      >
+        
+      ChatApp
+    
+      </div>
+    </a>
+     
+    <div
+      class="spacer"
+    />
+     
+    <div
+      class="d-flex align-center"
+    >
+      <a
+        class="text-decoration-none"
+        href="#/#login"
+      >
+        <div
+          class="auth-btn text--secondary text-center rounded pa-2 pl-2 pr-2"
+        >
+          
+        Login
+      
+        </div>
+      </a>
+       
+      <a
+        class="text-decoration-none"
+        href="#/#signup"
+      >
+        <div
+          class="auth-btn text--secondary text-center rounded pa-2 pl-2 pr-2"
+        >
+          
+        Signup
+      
+        </div>
+      </a>
+       
+      <hr
+        aria-orientation="vertical"
+        class="mx-2 my-auto v-divider v-divider--vertical theme--light"
+        role="separator"
+        style="height: 25px;"
+      />
+       
+      <div
+        class="v-menu"
+      >
+        <button
+          aria-expanded="false"
+          aria-haspopup="true"
+          class="v-btn v-btn--flat v-btn--icon v-btn--round theme--light elevation-0 v-size--default"
+          role="button"
+          style="font-size: 16px;"
+          type="button"
+        >
+          <span
+            class="v-btn__content"
+          >
+            <i
+              aria-hidden="true"
+              class="v-icon notranslate mdi mdi-cog-outline theme--light"
+            />
+          </span>
+        </button>
+        <!---->
+      </div>
+    </div>
+  </div>
+</header>
+`;

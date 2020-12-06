@@ -1,5 +1,5 @@
 <template>
-  <v-menu rounded offset-y nudge-left="60px">
+  <v-menu v-model="showMenu" rounded offset-y nudge-left="60px">
     <template v-slot:activator="{ attrs, on }">
       <v-btn
         elevation="0"
@@ -11,7 +11,6 @@
         <v-icon>mdi-cog-outline</v-icon>
       </v-btn>
     </template>
-
     <v-list>
       <v-list-item-group v-model="selectedThemeItem">
         <v-list-item
@@ -49,32 +48,31 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Emit } from 'vue-property-decorator';
+import { Component } from 'vue-property-decorator';
+import { THEME } from '@/utils/theme';
+import { Action } from '@/utils/decorators';
+import { ActionMethod } from 'vuex';
+import { SET_THEME } from '@/store/actions';
 
 // Represents the theme item to display in a list.
 interface ThemeListItem {
   // The list item title to represent the theme.
-  title: string;
+  title: THEME;
 
   // The list item icon to represent the theme.
   icon: string;
 }
 
-// Dark theme name.
-export const DARK = 'dark';
-// Light theme name.
-export const LIGHT = 'light';
-
-const DARK_BACKGROUND_COLOR = '#121212';
-const LIGHT_BACKGROUND_COLOR = '#fff';
-
 @Component({ name: 'settings-btn' })
 export default class Settings extends Vue {
+  @Action(SET_THEME) updateAppTheme!: ActionMethod;
   // The themes to display in the settings dropdown
   readonly themes: ThemeListItem[] = [
-    { title: LIGHT, icon: 'mdi-white-balance-sunny' },
-    { title: DARK, icon: 'mdi-weather-night' }
+    { title: THEME.LIGHT, icon: 'mdi-white-balance-sunny' },
+    { title: THEME.DARK, icon: 'mdi-weather-night' }
   ];
+  // This variable solely exists for testing purposes.
+  showMenu = false;
 
   /**
    * The selected theme item on the settings list.
@@ -96,24 +94,10 @@ export default class Settings extends Vue {
     return Boolean(window.matchMedia);
   }
 
-  /**
-   * This function emits the onThemeChange event and returns the name of the theme selected.
-   */
-  @Emit('themeChange')
-  setAndReturnTheme(theme: string) {
-    const usingDarkTheme = theme === DARK;
-    this.$vuetify.theme.dark = usingDarkTheme;
-    // Update the body background color as well for consistency.
-    document.body.style.backgroundColor = usingDarkTheme
-      ? DARK_BACKGROUND_COLOR
-      : LIGHT_BACKGROUND_COLOR;
-    return theme;
-  }
-
   // Handles the theme item selected.
-  handleTheme(theme: string) {
+  handleTheme(theme: THEME) {
     this.removeSystemThemeListener();
-    this.setAndReturnTheme(theme);
+    this.updateAppTheme(theme);
   }
 
   /**
@@ -122,8 +106,8 @@ export default class Settings extends Vue {
    * @param event A MediaQueryListEvent object.
    */
   handleSystemTheme(event: MediaQueryListEvent) {
-    const theme = event.matches ? DARK : LIGHT;
-    this.setAndReturnTheme(theme);
+    const theme = event.matches ? THEME.DARK : THEME.LIGHT;
+    this.updateAppTheme(theme);
   }
 
   // Adds a change listener to automatically update the application's theme based on the system theme.
@@ -132,8 +116,8 @@ export default class Settings extends Vue {
       // The MediaQueryList object that helps determine if the system theme is dark mode.
       this.matchMedia = window.matchMedia('(prefers-color-scheme: dark)');
       // Set the theme based on whether or not the media query matched.
-      const theme = this.matchMedia.matches ? DARK : LIGHT;
-      this.setAndReturnTheme(theme);
+      const theme = this.matchMedia.matches ? THEME.DARK : THEME.LIGHT;
+      this.updateAppTheme(theme);
       // Add the change listener that will determine application's theme based on the system theme.
       this.matchMedia.addEventListener('change', this.handleSystemTheme, false);
     }

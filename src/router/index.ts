@@ -9,19 +9,19 @@ const routes: Array<RouteConfig> = [
   {
     path: '/',
     name: 'Splash',
-    component: Splash,
+    component: Splash
   },
   {
     path: '*',
     name: 'NotFound',
-    component: NotFound,
-  },
+    component: NotFound
+  }
 ];
 
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes,
+  routes
 });
 
 export default router;

@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Settings.vue.test.ts renders settings button correctly 1`] = `
+<div
+  class="v-menu"
+>
+  <button
+    aria-expanded="false"
+    aria-haspopup="true"
+    class="v-btn v-btn--flat v-btn--icon v-btn--round theme--light elevation-0 v-size--default"
+    role="button"
+    style="font-size: 16px;"
+    type="button"
+  >
+    <span
+      class="v-btn__content"
+    >
+      <i
+        aria-hidden="true"
+        class="v-icon notranslate mdi mdi-cog-outline theme--light"
+      />
+    </span>
+  </button>
+  <!---->
+</div>
+`;
+
+exports[`Settings.vue.test.ts shows menu when button is clicked 1`] = `
+<div
+  class="v-menu"
+>
+  <button
+    aria-expanded="true"
+    aria-haspopup="true"
+    class="v-btn v-btn--flat v-btn--icon v-btn--round theme--light elevation-0 v-size--default"
+    role="button"
+    style="font-size: 16px;"
+    type="button"
+  >
+    <span
+      class="v-btn__content"
+    >
+      <i
+        aria-hidden="true"
+        class="v-icon notranslate mdi mdi-cog-outline theme--light"
+      />
+    </span>
+  </button>
+  <transition-stub
+    name="v-menu-transition"
+  />
+</div>
+`;
