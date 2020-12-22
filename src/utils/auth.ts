@@ -1,8 +1,11 @@
+// The representation of a regex rule that has passed or not.
 export interface RegexRule {
   regex: RegExp;
 
+  // The rule the represents regex being tested.
   rule: string;
 
+  // Determines if the regex test passed or not.
   passed?: boolean;
 }
 
@@ -18,17 +21,20 @@ export const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*\
  */
 const EMAIL_REGEX = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
+// The rules for validating the email text field.
 export const EMAIL_FORM_RULES = [
   (email: string) => !!email || 'Email is required',
   (email: string) => EMAIL_REGEX.test(email) || 'Email must be valid.',
 ];
 
+// The rules for validating the password text field.
 export const PASSWORD_FORM_RULES = [
   (password: string) => !!password || 'Password is required',
   (password: string) =>
     PASSWORD_REGEX.test(password) || 'Password must be valid.',
 ];
 
+// The rules for validating the password regex.
 export const PASSWORD_REGEX_RULES: RegexRule[] = [
   { rule: '8 characters minimum', regex: /.{8,}/ },
   { rule: '1 uppercase character', regex: /[A-Z]/ },
