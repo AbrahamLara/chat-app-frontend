@@ -1,11 +1,6 @@
 <template>
-  <v-app-bar
-    :class="{ 'pa-sai': true, white: !usingDarkMode }"
-    app
-    elevation="1"
-    fixed
-  >
-    <router-link class="text-decoration-none" to="/">
+  <v-app-bar :class="{ 'pa-sai': true, white: !usingDarkMode }" app fixed>
+    <router-link class="text-decoration-none" to="/" exact>
       <div
         :class="{
           'white--text text-h5 d-flex align-center': true,
@@ -17,20 +12,26 @@
     </router-link>
     <v-spacer></v-spacer>
     <div class="d-flex align-center">
-      <router-link to="#login" class="text-decoration-none">
-        <div
-          class="auth-btn text--secondary text-center rounded pa-2 pl-2 pr-2"
-          v-ripple
-        >
-          Login
+      <router-link
+        to="/auth/signin"
+        :class="{
+          'text-decoration-none text--accent': true,
+          'text--secondary': $route.path !== '/auth/signin',
+        }"
+      >
+        <div class="auth-btn text-center rounded pa-2 pl-2 pr-2" v-ripple>
+          Sign In
         </div>
       </router-link>
-      <router-link to="#signup" class="text-decoration-none">
-        <div
-          class="auth-btn text--secondary text-center rounded pa-2 pl-2 pr-2"
-          v-ripple
-        >
-          Signup
+      <router-link
+        to="/auth/signup"
+        :class="{
+          'text-decoration-none text--accent': true,
+          'text--secondary': $route.path !== '/auth/signup',
+        }"
+      >
+        <div class="auth-btn text-center rounded pa-2 pl-2 pr-2" v-ripple>
+          Sign Up
         </div>
       </router-link>
       <v-divider class="mx-2 my-auto" style="height: 25px" vertical></v-divider>
@@ -41,7 +42,7 @@
 
 <style>
 .auth-btn {
-  width: 70px;
+  width: 80px;
   user-select: none;
 }
 </style>
@@ -63,6 +64,10 @@ export default class AppBar extends Vue {
 
   get usingDarkMode() {
     return this.syncedTheme === THEME.DARK;
+  }
+
+  mounted() {
+    console.log(this.$route.path);
   }
 }
 </script>
