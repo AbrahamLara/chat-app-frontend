@@ -16,14 +16,16 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
-import { RegexRule } from '@/utils/auth';
+import { RegexRule } from '@/utils/auth-utils';
 
 @Component({ name: 'RegexRulesTester' })
 export default class RegexRulesTester extends Vue {
   @Prop({ type: Array }) rules!: RegexRule[];
-  @Prop() text = '';
+  @Prop({ type: String, default: '' }) text!: string;
 
-  // The results of running each test.
+  /**
+   * The results of running each test.
+   */
   get results() {
     return this.rules.map(rule => ({
       ...rule,

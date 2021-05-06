@@ -2,6 +2,7 @@
   <v-menu v-model="showMenu" rounded offset-y nudge-left="60px">
     <template v-slot:activator="{ attrs, on }">
       <v-btn
+        id="settings-btn"
         elevation="0"
         v-bind="attrs"
         v-on="on"
@@ -49,12 +50,14 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
-import { THEME } from '@/utils/theme';
+import { THEME } from '@/utils/theme-utils';
 import { Action } from '@/utils/decorators';
 import { ActionMethod } from 'vuex';
-import { SET_THEME } from '@/store/actions';
+import { SET_THEME } from '@/store/constants/root-constants';
 
-// Represents the theme item to display in a list.
+/**
+ * Represents the theme item to display in a list.
+ */
 interface ThemeListItem {
   // The list item title to represent the theme.
   title: THEME;
@@ -85,16 +88,22 @@ export default class Settings extends Vue {
    */
   selectedThemeItem = 0;
 
-  // The MediaQueryList object that will be helpful in changing the theme of the application to match the system
-  // theme.
+  /**
+   * The MediaQueryList object that will be helpful in changing the theme of the application to match the system
+   * theme.
+   */
   matchMedia: MediaQueryList | null = null;
 
-  // A computed property that determines if matchMedia is supported in the current browser.
+  /**
+   * A computed property that determines if matchMedia is supported in the current browser.
+   */
   get matchMediaIsSupported() {
     return Boolean(window.matchMedia);
   }
 
-  // Handles the theme item selected.
+  /**
+   * Handles the theme item selected.
+   */
   handleTheme(theme: THEME) {
     this.removeSystemThemeListener();
     this.updateAppTheme(theme);
@@ -110,7 +119,9 @@ export default class Settings extends Vue {
     this.updateAppTheme(theme);
   }
 
-  // Adds a change listener to automatically update the application's theme based on the system theme.
+  /**
+   * Adds a change listener to automatically update the application's theme based on the system theme.
+   */
   addSystemThemeListener() {
     if (this.matchMedia === null) {
       // The MediaQueryList object that helps determine if the system theme is dark mode.
@@ -123,7 +134,9 @@ export default class Settings extends Vue {
     }
   }
 
-  // Removes the change listener that updates the application's theme based on the system theme.
+  /**
+   * Removes the change listener that updates the application's theme based on the system theme.
+   */
   removeSystemThemeListener() {
     if (this.matchMedia !== null) {
       this.matchMedia.removeEventListener(

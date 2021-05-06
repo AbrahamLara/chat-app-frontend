@@ -1,12 +1,18 @@
 import { MutationTree } from 'vuex';
-import { AppState } from '@/store/states';
-import { SET_THEME } from '@/store/actions';
-import { THEME } from '@/utils/theme';
+import { RootState } from '@/store/store-states';
+import { THEME } from '@/utils/theme-utils';
+import {
+  SET_IS_AUTHENTICATED,
+  SET_THEME,
+} from '@/store/constants/root-constants';
 
 // Mutations that change how the application looks and behaves.
-const appMutations: MutationTree<AppState> = {
-  [SET_THEME]: (state, theme: THEME) => {
+const appMutations: MutationTree<RootState> = {
+  [SET_THEME]: (state: RootState, theme: THEME) => {
     state.theme = theme;
+  },
+  [SET_IS_AUTHENTICATED]: (state: RootState, isAuthenticated: boolean) => {
+    state.user.isAuthenticated = isAuthenticated;
   },
 };
 

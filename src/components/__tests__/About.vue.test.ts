@@ -3,8 +3,9 @@ import { createLocalVue, mount } from '@vue/test-utils';
 
 const localVue = createLocalVue();
 
-describe('About.vue.test.ts', () => {
+describe('About.vue', () => {
   it('renders correctly', () => {
-    expect(mount(About, { localVue })).toMatchSnapshot();
+    const wrapper = mount(About, { localVue });
+    expect(wrapper.html()).toMatchSnapshot();
   });
 });

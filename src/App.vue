@@ -1,7 +1,10 @@
 <template>
   <v-app>
     <v-main>
-      <app-bar :theme="this.$store.state.theme"></app-bar>
+      <app-bar
+        :theme="$store.state.theme"
+        :authenticated="$store.state.user.isAuthenticated"
+      ></app-bar>
       <router-view></router-view>
     </v-main>
   </v-app>
@@ -23,8 +26,12 @@ import Vue from 'vue';
 import AppBar from '@/components/AppBar.vue';
 import { Component } from 'vue-property-decorator';
 import { MutationPayload } from 'vuex';
-import { THEME, ThemeHexes } from '@/utils/theme';
-import { SET_THEME } from '@/store/actions';
+import { THEME, ThemeHexes } from '@/utils/theme-utils';
+import { Action } from '@/utils/decorators';
+import {
+  SET_IS_AUTHENTICATED,
+  SET_THEME,
+} from '@/store/constants/root-constants';
 
 @Component({
   name: 'app',
@@ -33,17 +40,27 @@ import { SET_THEME } from '@/store/actions';
   },
 })
 export default class App extends Vue {
+  @Action(SET_IS_AUTHENTICATED) authenticateUser!: Function;
+
   unsubscribe!: () => void;
 
   created() {
     const { theme } = this.$store.state;
     // Set the app theme from store state.
     this.setAppTheme(theme);
+
+    // If a token cookie exists, authenticate the user.
+    if (this.$cookies.get('token')) {
+      this.authenticateUser(true);
+    }
+
     // Reference the subscriber so that we can unsubscribe from it when the app is destroyed.
     this.unsubscribe = this.$store.subscribe(this.themeListener);
   }
 
-  // This function will set the application's theme.
+  /**
+   * This function will set the application's theme.
+   */
   setAppTheme(theme: THEME) {
     // Update vuetify dark theme based on app state.
     this.$vuetify.theme.dark = theme === THEME.DARK;

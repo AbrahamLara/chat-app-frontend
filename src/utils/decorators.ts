@@ -21,7 +21,7 @@ import { DispatchOptions } from 'vuex';
  * @param name The action to dispatch.
  * @return Returns a function that accepts a payload and options.
  */
-function Action(name?: string) {
+export function Action(name?: string) {
   return createDecorator((options, property) => {
     if (!options.methods) {
       options.methods = {};
@@ -36,5 +36,3 @@ function Action(name?: string) {
     };
   });
 }
-
-export { Action };

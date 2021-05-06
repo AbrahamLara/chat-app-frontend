@@ -1,75 +1,138 @@
-import Vue from 'vue';
+/* eslint-disable @typescript-eslint/no-empty-function */
+import Vuex, { Store } from 'vuex';
 import Vuetify from 'vuetify';
 import Settings from '@/components/Settings.vue';
 import { createLocalVue, mount, Wrapper } from '@vue/test-utils';
-import { resolveVuetifyAppDataWarning } from '@/utils/tests';
+import { createStore, resolveVuetifyAppDataWarning } from '@/utils/test-utils';
+import { RootState } from '@/store/store-states';
+import { THEME } from '@/utils/theme-utils';
+import Vue from 'vue';
 
 resolveVuetifyAppDataWarning();
 
 const localVue = createLocalVue();
+localVue.use(Vuex);
 Vue.use(Vuetify);
 
-describe('Settings.vue.test.ts', () => {
+describe('Settings.vue', () => {
   let wrapper: Wrapper<any>;
+  let store: Store<RootState>;
 
   beforeEach(() => {
     const vuetify = new Vuetify();
-    wrapper = mount(Settings, { localVue, vuetify });
-  });
+    store = createStore(Vuex);
 
-  it('renders settings button correctly', () => {
-    expect(wrapper.element).toMatchSnapshot();
+    wrapper = mount(Settings, {
+      localVue,
+      vuetify,
+      store,
+    });
   });
 
   it('shows menu when button is clicked', async () => {
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    const mockClickEvent = { stopPropagation: () => {} };
-    jest.spyOn(mockClickEvent, 'stopPropagation');
-    // Find the menu component.
-    const menu = wrapper.find('.v-menu');
-    expect(menu.exists()).toBeTruthy();
     // The menu should not be shown.
     expect(wrapper.vm.showMenu).toBeFalsy();
     // Find the button and click it to show the menu.
-    const button = menu.find('.v-btn');
-    button.vm.$emit('click', mockClickEvent);
+    await wrapper.find('#settings-btn').trigger('click');
     await wrapper.vm.$nextTick();
-    // The click event calls stopPropagation.
-    expect(mockClickEvent.stopPropagation).toHaveBeenCalledTimes(1);
-    // The menu element should've updated to reflect it being shown.
-    const updatedMenu = wrapper.find('.v-menu');
-    expect(updatedMenu.element).toMatchSnapshot();
     // The menu should be shown now.
     expect(wrapper.vm.showMenu).toBeTruthy();
   });
 
   it('attaches and removes system theme listener correctly', () => {
-    // Mock the handleSystemTheme method since we aren't testing vuex.
-    wrapper.vm.updateAppTheme = jest.fn();
-    // The matchMedia class property should be null by default.
-    expect(wrapper.vm.matchMedia).toBeNull();
+    // Expect light theme as default.
+    expect(store.state.theme).toBe(THEME.LIGHT);
+
+    let callback: any = null;
     // Create a mock MediaQueryList object with event listener methods.
     const mockMediaQueryList = {
-      addEventListener: jest.fn(),
-      removeEventListener: jest.fn(),
+      // Set to true so that when the system listener is added, the theme is set to dark.
+      matches: true,
+      addEventListener: (_: any, cb: any) => (callback = cb),
+      // Remove callback function on call.
+      removeEventListener: () => (callback = null),
     } as any;
+
     // Mock window.matchMedia.
     window.matchMedia = jest.fn(() => mockMediaQueryList);
 
     wrapper.vm.addSystemThemeListener();
-    // window.matchMedia should've been called.
-    expect(window.matchMedia).toHaveBeenCalled();
-    // The method to add an event listener to the match media object should've been called.
-    expect(mockMediaQueryList.addEventListener).toHaveBeenCalled();
-    // The updateAppTheme method should've been called as a result of calling addSystemThemeListener.
-    expect(wrapper.vm.updateAppTheme).toHaveBeenCalled();
-    // The matchMedia class property should no longer be null.
-    expect(wrapper.vm.matchMedia).not.toBeNull();
+
+    wrapper.vm.$nextTick();
+
+    // Expect theme to be dark after adding system listener.
+    expect(store.state.theme).toBe(THEME.DARK);
+    // Pass is mock event that will cause theme to be set to light
+    callback({ matches: false });
+
+    wrapper.vm.$nextTick();
+
+    // Expect theme to be light after firing callback function.
+    expect(store.state.theme).toBe(THEME.LIGHT);
 
     wrapper.vm.removeSystemThemeListener();
-    // The method to remove an event listener from the match media object should've been called.
-    expect(mockMediaQueryList.removeEventListener).toHaveBeenCalled();
-    // The matchMedia class property should be null as a result of removing the listener.
+    // Expect callback function to be removed.
+    expect(callback).toBeNull();
+  });
+
+  it('updates theme when calling handleTheme', async () => {
+    // The default theme should be light.
+    expect(store.state.theme).toEqual(THEME.LIGHT);
+    // Update the theme state to dark.
+    const expectedTheme1 = THEME.DARK;
+    await wrapper.vm.handleTheme(expectedTheme1);
+    // The theme state should now be dark.
+    expect(store.state.theme).toEqual(expectedTheme1);
+    // Update the theme state back to light.
+    const expectedTheme2 = THEME.LIGHT;
+    await wrapper.vm.handleTheme(expectedTheme2);
+    // The theme state should now be light.
+    expect(store.state.theme).toEqual(expectedTheme2);
+  });
+
+  it('adding system theme listener auto updates theme state and removing the listener no longer updates it', async () => {
+    // Expect default theme should be light.
+    expect(store.state.theme).toEqual(THEME.LIGHT);
+
+    // Create a mock MediaQueryList object.
+    const mockMediaQueryList = {
+      // Mock the system theme being dark by setting 'matches' to true.
+      matches: true,
+      onchange: () => {},
+    } as any;
+    // Mock addEventListener that will add an onchange method to update app theme.
+    mockMediaQueryList.addEventListener = jest.fn(() => {
+      mockMediaQueryList.onchange = (theme: THEME) =>
+        wrapper.vm.updateAppTheme(theme);
+    });
+    // Mock removeEventListener that will reset the onchange method to no longer listen to system theme changes.
+    mockMediaQueryList.removeEventListener = jest.fn(
+      () => (mockMediaQueryList.onchange = () => {})
+    );
+    // Mock window.matchMedia.
+    window.matchMedia = jest.fn(() => mockMediaQueryList);
+
+    // Mock system theme changing to dark mode.
+    mockMediaQueryList.onchange(THEME.DARK);
+    // Expect theme not to have updated since we haven't added the listener.
+    expect(store.state.theme).not.toBe(THEME.DARK);
+
+    await wrapper.vm.addSystemThemeListener();
+    // Expect theme state to have been updated to dark.
+    expect(store.state.theme).toEqual(THEME.DARK);
+
+    // Mock system theme changing to light mode.
+    mockMediaQueryList.onchange(THEME.LIGHT);
+    // Expect theme to have updated since we added the listener.
+    expect(store.state.theme).toEqual(THEME.LIGHT);
+
+    await wrapper.vm.removeSystemThemeListener();
+    // Expect matchMedia property to be null as a result of removing the listener.
     expect(wrapper.vm.matchMedia).toBeNull();
+
+    // Mock system theme changing back to dark mode.
+    mockMediaQueryList.onchange(THEME.DARK);
+    // The theme state shouldn't have updated since we removed the listener.
+    expect(store.state.theme).toEqual(THEME.LIGHT);
   });
 });
