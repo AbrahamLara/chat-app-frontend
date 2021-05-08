@@ -5,7 +5,7 @@ import Vuetify from 'vuetify';
 import { createLocalVue, mount, Wrapper } from '@vue/test-utils';
 import { RootState } from '@/store/store-states';
 import {
-  createFormErrorMessage,
+  createFormAlertMessage,
   createRouter,
   createStore,
 } from '@/utils/test-utils';
@@ -96,10 +96,10 @@ describe('SignUp.vue', () => {
     store.commit(namespaceAlertsMutation(SET_ERRORS), {
       errors: [
         createAlertMessage(BANNER_ERROR),
-        createFormErrorMessage('name', 'name error'),
-        createFormErrorMessage('email', 'email error'),
-        createFormErrorMessage('password', 'password error'),
-        createFormErrorMessage('confPassword', 'conf password error'),
+        createFormAlertMessage('name', 'name error'),
+        createFormAlertMessage('email', 'email error'),
+        createFormAlertMessage('password', 'password error'),
+        createFormAlertMessage('confPassword', 'conf password error'),
       ],
     });
 

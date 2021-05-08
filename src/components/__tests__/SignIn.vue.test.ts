@@ -8,7 +8,7 @@ import mockFetch from '../../../__mocks__/cross-fetch';
 import { RootState } from '@/store/store-states';
 import { createLocalVue, mount, Wrapper } from '@vue/test-utils';
 import {
-  createFormErrorMessage,
+  createFormAlertMessage,
   createRouter,
   createStore,
 } from '@/utils/test-utils';
@@ -70,8 +70,8 @@ describe('SignIn.vue', () => {
     store.commit(namespaceAlertsMutation(SET_ERRORS), {
       errors: [
         createAlertMessage(BANNER_ERROR),
-        createFormErrorMessage('email', 'email error'),
-        createFormErrorMessage('password', 'password error'),
+        createFormAlertMessage('email', 'email error'),
+        createFormAlertMessage('password', 'password error'),
       ],
     });
 

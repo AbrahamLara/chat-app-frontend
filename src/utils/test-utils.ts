@@ -5,7 +5,7 @@ import appMutations from '@/store/mutations';
 import appActions from '@/store/actions';
 import appModules from '@/store/modules';
 import { DEFAULT_ROOT_STATE } from '@/store';
-import { FormErrorMessage } from '../../../chat-app-backend/utils/error-types';
+import { FormAlertMessage } from '@/utils/alerts-utils';
 
 /**
  * Resolves a vuetify warning of not being able to locate a data-app attribute on an element because vuetify
@@ -63,9 +63,9 @@ export function createRouter(
 /**
  * Creates a form error message for testing.
  */
-export function createFormErrorMessage(
+export function createFormAlertMessage(
   field: string,
   message: string
-): FormErrorMessage {
+): FormAlertMessage {
   return { field, message };
 }
