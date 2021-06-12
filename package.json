@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "webpack server --config webpack.dev.js",
     "build": "webpack --config webpack.prod.js",
-    "local-prod": "rm -rf ./dist && npm run build && npx http-server ./dist",
+    "local-prod": "rm -rf ./dist && npm run build && npx http-server -p 80 ./dist",
     "test": "jest",
     "lint": "eslint --ext .ts,.vue src/",
     "lint:fix": "npm run lint -- --fix"
