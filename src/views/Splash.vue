@@ -1,10 +1,12 @@
 <template>
   <div class="splash-view d-flex flex-column-reverse flex-md-row">
-    <div class="d-lg-flex align-center justify-center col-md-8 col-lg-6">
+    <v-col class="d-lg-flex align-center justify-center" lg="6" md="8">
       <about-view></about-view>
-    </div>
-    <div
-      class="splash-view_welcome-panel d-flex flex-column align-center justify-center col-md-4 col-lg-6"
+    </v-col>
+    <v-col
+      class="splash-view_welcome-panel d-flex flex-column align-center justify-center"
+      lg="6"
+      md="4"
     >
       <v-card class="text-h4 text-lg-h1 pa-3 pt-1 pb-1 pa-lg-5 mr-16" tile flat>
         Welcome
@@ -19,12 +21,12 @@
       >
         ChatApp!
       </v-card>
-    </div>
+    </v-col>
   </div>
 </template>
 
 <style lang="sass">
-@import '~vuetify/src/components/VStepper/_variables.scss'
+@use '@/styles/vuetify-vars' as v
 
 .splash-view
   height: 100%
@@ -39,16 +41,16 @@
   user-select: none
 
 .splash-view_welcome-panel
-  @media screen and (min-width: map-get($grid-breakpoints, 'lg'))
+  @media screen and (min-width: map-get(v.$grid-breakpoints, 'lg'))
     height: inherit
 </style>
 
 <script>
-import About from '@/components/About.vue';
+import { getAbout } from '@/utils/dynamic-imports';
 
 export default {
   components: {
-    'about-view': About,
+    'about-view': getAbout,
   },
 };
 </script>

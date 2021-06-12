@@ -10,10 +10,10 @@
 </template>
 
 <style scoped lang="sass">
-@import '~vuetify/src/components/VStepper/_variables.scss'
+@use '@/styles/vuetify-vars' as v
 
 .form-card
-  @media screen and (min-width: map-get($grid-breakpoints, 'md'))
+  @media screen and (min-width: map-get(v.$grid-breakpoints, 'md'))
     width: 400px
 </style>
 

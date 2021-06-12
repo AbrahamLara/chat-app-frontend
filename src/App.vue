@@ -23,7 +23,6 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import AppBar from '@/components/AppBar.vue';
 import { Component } from 'vue-property-decorator';
 import { MutationPayload } from 'vuex';
 import { THEME, ThemeHexes } from '@/utils/theme-utils';
@@ -32,11 +31,12 @@ import {
   SET_IS_AUTHENTICATED,
   SET_THEME,
 } from '@/store/constants/root-constants';
+import { getAppBar } from '@/utils/dynamic-imports';
 
 @Component({
   name: 'app',
   components: {
-    'app-bar': AppBar,
+    'app-bar': getAppBar,
   },
 })
 export default class App extends Vue {

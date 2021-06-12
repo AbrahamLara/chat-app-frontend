@@ -74,17 +74,19 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import Settings from '@/components/Settings.vue';
 import { Component, PropSync } from 'vue-property-decorator';
 import { THEME } from '@/utils/theme-utils';
 import { namespaceAlertsMutation } from '@/store/modules';
 import { CLEAR_ALERTS } from '@/store/constants/alerts-constants';
 import { Action } from '@/utils/decorators';
 import { SET_IS_AUTHENTICATED } from '@/store/constants/root-constants';
+import { getSettings } from '@/utils/dynamic-imports';
 
 @Component({
   name: 'app-bar',
-  components: { 'settings-btn': Settings },
+  components: {
+    'settings-btn': getSettings,
+  },
 })
 export default class AppBar extends Vue {
   @Action(SET_IS_AUTHENTICATED) authenticateUser!: Function;

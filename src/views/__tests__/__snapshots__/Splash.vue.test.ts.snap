@@ -1,11 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Splash.vue.test.ts renders splash view correctly 1`] = `
+exports[`Splash.vue renders splash view correctly 1`] = `
 <div
   class="splash-view d-flex flex-column-reverse flex-md-row"
 >
   <div
-    class="d-lg-flex align-center justify-center col-md-8 col-lg-6"
+    class="d-lg-flex align-center justify-center col-md-8 col-lg-6 col"
   >
     <div
       class="about-container pa-sai pt-5 pt-lg-0"
@@ -22,7 +22,7 @@ exports[`Splash.vue.test.ts renders splash view correctly 1`] = `
         
     ChatApp is a mock WhatsApp application which this project was also
     inspired by. The idea behind this project was to recreate the basic
-    features and functionalities that exist in WhatsApp.
+    features and functionalities that exist within WhatsApp.
   
       </div>
        
@@ -71,23 +71,23 @@ exports[`Splash.vue.test.ts renders splash view correctly 1`] = `
           class="ml-2"
         >
           <li>
+            TypeScript
+          </li>
+           
+          <li>
             Vue
           </li>
            
           <li>
-            Vuetify
+            Sass
           </li>
            
           <li>
-            Vue Router
+            Webpack
           </li>
            
           <li>
-            Vue Property Decorator
-          </li>
-           
-          <li>
-            TypeScript
+            Jest
           </li>
         </ul>
       </div>
@@ -105,11 +105,15 @@ exports[`Splash.vue.test.ts renders splash view correctly 1`] = `
           class="ml-2"
         >
           <li>
-            Node.js
+            Typescript
           </li>
            
           <li>
-            Express
+            Express.js
+          </li>
+           
+          <li>
+            Docker
           </li>
            
           <li>
@@ -117,11 +121,7 @@ exports[`Splash.vue.test.ts renders splash view correctly 1`] = `
           </li>
            
           <li>
-            JSON Web Tokens
-          </li>
-           
-          <li>
-            bcrypt
+            Jest
           </li>
         </ul>
       </div>
@@ -135,7 +135,7 @@ exports[`Splash.vue.test.ts renders splash view correctly 1`] = `
   </div>
    
   <div
-    class="splash-view_welcome-panel d-flex flex-column align-center justify-center col-md-4 col-lg-6"
+    class="splash-view_welcome-panel d-flex flex-column align-center justify-center col-md-4 col-lg-6 col"
   >
     <div
       class="text-h4 text-lg-h1 pa-3 pt-1 pb-1 pa-lg-5 mr-16 v-card v-card--flat v-sheet theme--light rounded-0"

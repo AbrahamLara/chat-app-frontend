@@ -1,21 +1,23 @@
 import { RouteConfig } from 'vue-router';
-import Splash from '@/views/Splash.vue';
-import AuthPage from '@/views/AuthPage.vue';
 import Vue from 'vue';
-import SignUp from '@/components/SignUp.vue';
-import SignIn from '@/components/SignIn.vue';
-import NotFound from '@/views/NotFound.vue';
+import {
+  getAuthPage,
+  getNotFound,
+  getSignIn,
+  getSignUp,
+  getSplash,
+} from '@/utils/dynamic-imports';
 
 const routes: Array<RouteConfig> = [
   {
     path: '/',
     name: 'Splash',
-    component: Splash,
+    component: getSplash,
     // TODO: Add a navigation guard to prevent authenticated users from visiting this route.
   },
   {
     path: '/auth',
-    component: AuthPage,
+    component: getAuthPage,
     beforeEnter: (to, from, next) => {
       // If the token cookie has been set, prevent access to the authentication page.
       if (Vue.$cookies.get('token')) {
@@ -27,18 +29,18 @@ const routes: Array<RouteConfig> = [
     children: [
       {
         path: 'signup',
-        component: SignUp,
+        component: getSignUp,
       },
       {
         path: 'signin',
-        component: SignIn,
+        component: getSignIn,
       },
     ],
   },
   {
     path: '*',
     name: 'NotFound',
-    component: NotFound,
+    component: getNotFound,
   },
 ];
 

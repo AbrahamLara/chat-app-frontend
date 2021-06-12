@@ -98,21 +98,11 @@
 </template>
 
 <style scoped lang="sass">
-@import '~vuetify/src/components/VStepper/_variables.scss'
+@use '@/styles/vuetify-vars' as v
 
 .auth-form-container
-  @media screen and (min-width: map-get($grid-breakpoints, 'md'))
+  @media screen and (min-width: map-get(v.$grid-breakpoints, 'md'))
     width: 400px
-
-.alert-container
-  position: relative
-  max-height: 40px
-
-.alert-holder
-  width: 100%
-  position: absolute
-  left: 0
-  top: 0
 </style>
 
 <script lang="ts">
@@ -127,8 +117,6 @@ import {
   RegisterFormField,
 } from '@/utils/auth-utils';
 import { Action } from '@/utils/decorators';
-import RegexRulesTester from '@/components/RegexRulesTester.vue';
-import FormCard from '@/components/FormCard.vue';
 import {
   DEFAULT_ALERT_BAR_OPTIONS,
   FormAlertMessage,
@@ -142,12 +130,13 @@ import {
   SET_ERRORS,
 } from '@/store/constants/alerts-constants';
 import { REGISTER_USER } from '@/store/constants/root-constants';
+import { getFormCard, getRegexRulesTester } from '@/utils/dynamic-imports';
 
 @Component({
   name: 'SignUp',
   components: {
-    'regex-rules-tester': RegexRulesTester,
-    'form-card': FormCard,
+    'regex-rules-tester': getRegexRulesTester,
+    'form-card': getFormCard,
   },
 })
 export default class SignUp extends Vue {

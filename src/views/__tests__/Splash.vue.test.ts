@@ -1,13 +1,12 @@
 import Vue from 'vue';
 import Vuetify from 'vuetify';
-import About from '@/components/About.vue';
 import Splash from '@/views/Splash.vue';
 import { createLocalVue, mount, Wrapper } from '@vue/test-utils';
 
 const localVue = createLocalVue();
 Vue.use(Vuetify);
 
-describe('Splash.vue.test.ts', () => {
+describe('Splash.vue', () => {
   let wrapper: Wrapper<any>;
 
   beforeEach(() => {
@@ -21,6 +20,6 @@ describe('Splash.vue.test.ts', () => {
   });
 
   it('contains about view', () => {
-    expect(wrapper.findComponent(About).exists()).toBeTruthy();
+    expect(wrapper.find('.about-container').exists()).toBeTruthy();
   });
 });

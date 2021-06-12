@@ -7,9 +7,15 @@ import './plugins/vueCookies';
 
 Vue.config.productionTip = false;
 
-new Vue({
-  router,
-  store,
-  vuetify,
-  render: h => h(App),
-}).$mount('#app');
+async function handleDynamicImports() {
+  return {};
+}
+
+handleDynamicImports().then(() => {
+  new Vue({
+    router,
+    store,
+    vuetify,
+    render: h => h(App),
+  }).$mount('#app');
+});

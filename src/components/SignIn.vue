@@ -59,20 +59,6 @@
   </form-card>
 </template>
 
-<style scoped>
-.alert-container {
-  position: relative;
-  height: 40px;
-}
-
-.alert-holder {
-  width: 100%;
-  position: absolute;
-  left: 0;
-  top: 0;
-}
-</style>
-
 <script lang="ts">
 import Vue from 'vue';
 import { MutationPayload } from 'vuex';
@@ -82,7 +68,6 @@ import {
   EMAIL_FORM_RULES,
   LoginField,
 } from '@/utils/auth-utils';
-import FormCard from '@/components/FormCard.vue';
 import { Action } from '@/utils/decorators';
 import { namespaceAlertsMutation } from '@/store/modules';
 import { AppState } from '@/store/store-states';
@@ -95,10 +80,11 @@ import {
   LOGIN_USER,
   SET_IS_AUTHENTICATED,
 } from '@/store/constants/root-constants';
+import { getFormCard } from '@/utils/dynamic-imports';
 
 @Component({
   name: 'SignIn',
-  components: { 'form-card': FormCard },
+  components: { 'form-card': getFormCard },
 })
 export default class SignIn extends Vue {
   @Action(LOGIN_USER) private submitLoginForm!: Function;
