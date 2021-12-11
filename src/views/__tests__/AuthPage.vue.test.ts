@@ -1,16 +1,20 @@
-import { createLocalVue, mount, Wrapper } from '@vue/test-utils';
+import { mount, Wrapper } from '@vue/test-utils';
 import VueRouter from 'vue-router';
 import AuthPage from '@/views/AuthPage.vue';
-import { createRouter, createStore } from '@/utils/test-utils';
+import {
+  createLocalVueInstance,
+  createRouter,
+  createStore,
+} from '@/utils/test-utils';
 import SignIn from '@/components/SignIn.vue';
 import SignUp from '@/components/SignUp.vue';
 import Vuetify from 'vuetify';
-import Vue from 'vue';
 import Vuex from 'vuex';
 
-const localVue = createLocalVue();
-localVue.use(VueRouter);
-Vue.use(Vuetify);
+const localVue = createLocalVueInstance({
+  useVueRouter: true,
+  useVuetify: true,
+});
 
 describe('AuthPage.vue', () => {
   let wrapper: Wrapper<any>;

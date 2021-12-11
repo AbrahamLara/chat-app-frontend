@@ -1,3 +1,4 @@
+require('dotenv').config();
 const webpack = require('webpack');
 const path = require('path');
 const HTMLWebPackPlugin = require('html-webpack-plugin');
@@ -7,7 +8,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 function getWebpackConfig(config) {
   const isProduction = config.mode === 'production';
-  const styleLoader = isProduction
+  const environmentStyleLoader = isProduction
     ? MiniCssExtractPlugin.loader
     : 'vue-style-loader';
 
@@ -53,12 +54,13 @@ function getWebpackConfig(config) {
         },
         {
           test: /\.css$/,
-          use: [styleLoader, 'css-loader'],
+          use: [environmentStyleLoader, 'css-loader'],
         },
         {
           test: /\.(sa|sc)ss$/,
+          exclude: /\.temp\.sass$/i,
           use: [
-            styleLoader,
+            environmentStyleLoader,
             'css-loader',
             {
               loader: 'sass-loader',
@@ -68,6 +70,21 @@ function getWebpackConfig(config) {
                 },
               },
             },
+          ],
+        },
+        {
+          test: /\.temp\.sass$/i,
+          use: [
+            // Ordering matters! style-loader should be executed last.
+            {
+              loader: 'style-loader',
+              options: {
+                injectType: 'lazySingletonStyleTag',
+                attributes: { id: 'temp-style-tag' },
+              },
+            },
+            'css-loader',
+            'sass-loader',
           ],
         },
         {
@@ -98,6 +115,7 @@ function getWebpackConfig(config) {
       new HTMLWebPackPlugin({
         template: path.join(__dirname, 'public/index.html'),
         favicon: path.join(__dirname, 'public/favicon.ico'),
+        title: 'Chat App',
       }),
       new VueLoaderPlugin(),
       new VuetifyLoaderPlugin(),

@@ -1,7 +1,7 @@
 import fetch from 'cross-fetch';
 import { LoginFormFields, RegisterFormFields } from '@/utils/auth-utils';
 
-const AUTH_API_URL = 'http://localhost:5000/api/auth';
+const AUTH_API_URL = '/api/auth';
 
 const BASE_FETCH_SETTINGS = {
   method: 'post',
@@ -15,7 +15,7 @@ const BASE_FETCH_SETTINGS = {
  *
  * @param loginForm login form values.
  */
-async function loginUser(loginForm: LoginFormFields) {
+export async function loginUser(loginForm: LoginFormFields) {
   return fetch(`${AUTH_API_URL}/login`, {
     ...BASE_FETCH_SETTINGS,
     body: JSON.stringify(loginForm),
@@ -27,11 +27,9 @@ async function loginUser(loginForm: LoginFormFields) {
  *
  * @param registerForm register form values.
  */
-async function registerUser(registerForm: RegisterFormFields) {
+export async function registerUser(registerForm: RegisterFormFields) {
   return fetch(`${AUTH_API_URL}/register`, {
     ...BASE_FETCH_SETTINGS,
     body: JSON.stringify(registerForm),
   });
 }
-
-export { AUTH_API_URL, loginUser, registerUser };

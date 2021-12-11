@@ -98,10 +98,11 @@
 </template>
 
 <style scoped lang="sass">
-@use '@/styles/vuetify-vars' as v
+@use '../styles/vuetify-vars' as v
 
-.auth-form-container
-  @media screen and (min-width: map-get(v.$grid-breakpoints, 'md'))
+//noinspection Stylelint
+@media screen and (min-width: map-get(v.$grid-breakpoints, 'md'))
+  .auth-form-container
     width: 400px
 </style>
 
@@ -123,7 +124,7 @@ import {
 } from '@/utils/alerts-utils';
 import { MutationPayload } from 'vuex';
 import { AppState } from '@/store/store-states';
-import { namespaceAlertsMutation } from '@/store/modules';
+import { namespaceAlerts } from '@/store/modules';
 import {
   ADD_ERROR,
   ADD_SUCCESS,
@@ -217,8 +218,8 @@ export default class SignUp extends Vue {
    */
   setAlertsListener(mutation: MutationPayload, state: AppState) {
     switch (mutation.type) {
-      case namespaceAlertsMutation(SET_ERRORS):
-      case namespaceAlertsMutation(ADD_ERROR):
+      case namespaceAlerts(SET_ERRORS):
+      case namespaceAlerts(ADD_ERROR):
         state.alerts.errors.forEach(({ field, message }: FormAlertMessage) => {
           if (field) {
             this.registerErrors[field as RegisterFormField] = message;
@@ -231,7 +232,7 @@ export default class SignUp extends Vue {
           }
         });
         break;
-      case namespaceAlertsMutation(ADD_SUCCESS):
+      case namespaceAlerts(ADD_SUCCESS):
         this.alertBarOptions = {
           visible: true,
           type: 'success',

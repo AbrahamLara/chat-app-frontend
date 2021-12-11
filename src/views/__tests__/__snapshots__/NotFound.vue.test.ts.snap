@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`NotFound.vue renders not found view correctly 1`] = `
+exports[`NotFoundPage.vue renders not found view correctly 1`] = `
 <div
   class="text-center"
 >

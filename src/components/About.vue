@@ -43,9 +43,10 @@
 </template>
 
 <style lang="sass">
-@use '@/styles/vuetify-vars' as v
+@use '../styles/vuetify-vars' as v
 
-.about-container
-  @media screen and (min-width: map-get(v.$grid-breakpoints, 'md'))
+//noinspection Stylelint
+@media screen and (min-width: map-get(v.$grid-breakpoints, 'md'))
+  .about-container
     width: 600px
 </style>

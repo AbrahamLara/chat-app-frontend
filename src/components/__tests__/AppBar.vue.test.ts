@@ -1,23 +1,26 @@
-import { createLocalVue, mount, Wrapper } from '@vue/test-utils';
-import Vue from 'vue';
+import { mount, Wrapper } from '@vue/test-utils';
 import Vuex, { Store } from 'vuex';
 import Vuetify from 'vuetify';
 import AppBar from '@/components/AppBar.vue';
 import { AppState, RootState } from '@/store/store-states';
-import { namespaceAlertsMutation } from '@/store/modules';
+import { namespaceAlerts } from '@/store/modules';
 import { ADD_ERROR, ADD_SUCCESS } from '@/store/constants/alerts-constants';
 import { createAlertMessage } from '@/utils/alerts-utils';
 import VueRouter from 'vue-router';
 import { SET_IS_AUTHENTICATED } from '@/store/constants/root-constants';
-import VueCookies from 'vue-cookies';
 import { THEME } from '@/utils/theme-utils';
-import { createRouter, createStore } from '@/utils/test-utils';
+import {
+  createLocalVueInstance,
+  createRouter,
+  createStore,
+} from '@/utils/test-utils';
 
-const localVue = createLocalVue();
-localVue.use(Vuex);
-localVue.use(VueRouter);
-localVue.use(VueCookies);
-Vue.use(Vuetify);
+const localVue = createLocalVueInstance({
+  useVuetify: true,
+  useVueRouter: true,
+  useVuex: true,
+  useVueCookies: true,
+});
 
 async function expectAlertsToClearFor(
   btnId: string,
@@ -31,14 +34,8 @@ async function expectAlertsToClearFor(
   expect(state.alerts.successes.length).toEqual(0);
 
   // Add error and success alerts to state.
-  store.commit(
-    namespaceAlertsMutation(ADD_ERROR),
-    createAlertMessage('error1')
-  );
-  store.commit(
-    namespaceAlertsMutation(ADD_SUCCESS),
-    createAlertMessage('success1')
-  );
+  store.commit(namespaceAlerts(ADD_ERROR), createAlertMessage('error1'));
+  store.commit(namespaceAlerts(ADD_SUCCESS), createAlertMessage('success1'));
 
   // Expect state to contain both newly added alerts.
   expect(state.alerts.errors.length).toEqual(1);

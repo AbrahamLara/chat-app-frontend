@@ -1,12 +1,11 @@
-import Vue from 'vue';
 import Vuetify from 'vuetify';
-import Splash from '@/views/Splash.vue';
-import { createLocalVue, mount, Wrapper } from '@vue/test-utils';
+import Splash from '@/views/SplashPage.vue';
+import { mount, Wrapper } from '@vue/test-utils';
+import { createLocalVueInstance } from '@/utils/test-utils';
 
-const localVue = createLocalVue();
-Vue.use(Vuetify);
+const localVue = createLocalVueInstance({ useVuetify: true });
 
-describe('Splash.vue', () => {
+describe('SplashPage.vue', () => {
   let wrapper: Wrapper<any>;
 
   beforeEach(() => {

@@ -1,0 +1,5 @@
+describe('UserList.vue', () => {
+  it('', () => {
+    //
+  });
+});

@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils';
-import NotFound from '@/views/NotFound.vue';
+import NotFound from '@/views/NotFoundPage.vue';
 
-describe('NotFound.vue', () => {
+describe('NotFoundPage.vue', () => {
   it('renders not found view correctly', () => {
     expect(mount(NotFound).element).toMatchSnapshot();
   });

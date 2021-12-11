@@ -86,3 +86,10 @@ export const DEFAULT_REGISTER_FORM_FIELDS: RegisterFormFields = {
   password: '',
   confPassword: '',
 };
+
+/**
+ * Determines if the provided object is a message about an invalid token.
+ */
+export function isInvalidTokenMessage(data: Record<string, string>) {
+  return data.message === 'The provided token is invalid';
+}

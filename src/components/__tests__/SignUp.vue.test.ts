@@ -1,16 +1,16 @@
 import Vuex, { Store } from 'vuex';
 import VueRouter from 'vue-router';
-import Vue from 'vue';
 import Vuetify from 'vuetify';
-import { createLocalVue, mount, Wrapper } from '@vue/test-utils';
+import { mount, Wrapper } from '@vue/test-utils';
 import { RootState } from '@/store/store-states';
 import {
   createFormAlertMessage,
+  createLocalVueInstance,
   createRouter,
   createStore,
 } from '@/utils/test-utils';
 import SignUp from '@/components/SignUp.vue';
-import { namespaceAlertsMutation } from '@/store/modules';
+import { namespaceAlerts } from '@/store/modules';
 import { SET_ERRORS } from '@/store/constants/alerts-constants';
 import { createAlertMessage } from '@/utils/alerts-utils';
 import mockFetch from '../../../__mocks__/cross-fetch';
@@ -20,10 +20,11 @@ jest.mock('cross-fetch');
 
 const MOCK_SIGN_UP_PATH = '/mock/auth/signup';
 
-const localVue = createLocalVue();
-localVue.use(Vuex);
-localVue.use(VueRouter);
-Vue.use(Vuetify);
+const localVue = createLocalVueInstance({
+  useVuetify: true,
+  useVuex: true,
+  useVueRouter: true,
+});
 
 describe('SignUp.vue', () => {
   const BANNER_ERROR = 'banner error';
@@ -93,7 +94,7 @@ describe('SignUp.vue', () => {
     expect(wrapper.html()).toMatchSnapshot();
 
     // Add errors to state.
-    store.commit(namespaceAlertsMutation(SET_ERRORS), {
+    store.commit(namespaceAlerts(SET_ERRORS), {
       errors: [
         createAlertMessage(BANNER_ERROR),
         createFormAlertMessage('name', 'name error'),
@@ -144,7 +145,7 @@ describe('SignUp.vue', () => {
     expect(wrapper.find('#alert-banner.error').exists()).toBeFalsy();
 
     // Add banner error.
-    store.commit(namespaceAlertsMutation(SET_ERRORS), {
+    store.commit(namespaceAlerts(SET_ERRORS), {
       errors: [createAlertMessage(BANNER_ERROR)],
     });
 

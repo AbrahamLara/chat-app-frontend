@@ -1,18 +1,17 @@
 import Vuex, { Store } from 'vuex';
 import VueRouter from 'vue-router';
-import VueCookies from 'vue-cookies';
-import Vue from 'vue';
 import Vuetify from 'vuetify';
 import SignIn from '@/components/SignIn.vue';
 import mockFetch from '../../../__mocks__/cross-fetch';
 import { RootState } from '@/store/store-states';
-import { createLocalVue, mount, Wrapper } from '@vue/test-utils';
+import { mount, Wrapper } from '@vue/test-utils';
 import {
   createFormAlertMessage,
+  createLocalVueInstance,
   createRouter,
   createStore,
 } from '@/utils/test-utils';
-import { namespaceAlertsMutation } from '@/store/modules';
+import { namespaceAlerts } from '@/store/modules';
 import { SET_ERRORS } from '@/store/constants/alerts-constants';
 import { createAlertMessage } from '@/utils/alerts-utils';
 
@@ -21,11 +20,12 @@ jest.mock('cross-fetch');
 const MOCK_TOKEN = '1234567890';
 const MOCK_SIGN_IN_PATH = '/mock/auth/signin';
 
-const localVue = createLocalVue();
-localVue.use(Vuex);
-localVue.use(VueRouter);
-Vue.use(VueCookies);
-Vue.use(Vuetify);
+const localVue = createLocalVueInstance({
+  useVuex: true,
+  useVuetify: true,
+  useVueRouter: true,
+  useVueCookies: true,
+});
 
 describe('SignIn.vue', () => {
   const BANNER_ERROR = 'banner error';
@@ -67,7 +67,7 @@ describe('SignIn.vue', () => {
     expect(wrapper.html()).toMatchSnapshot();
 
     // Add errors to state.
-    store.commit(namespaceAlertsMutation(SET_ERRORS), {
+    store.commit(namespaceAlerts(SET_ERRORS), {
       errors: [
         createAlertMessage(BANNER_ERROR),
         createFormAlertMessage('email', 'email error'),
@@ -114,7 +114,7 @@ describe('SignIn.vue', () => {
     expect(wrapper.find('#alert-banner').exists()).toBeFalsy();
 
     // Add banner error.
-    store.commit(namespaceAlertsMutation(SET_ERRORS), {
+    store.commit(namespaceAlerts(SET_ERRORS), {
       errors: [createAlertMessage(BANNER_ERROR)],
     });
 
@@ -134,9 +134,9 @@ describe('SignIn.vue', () => {
     // Expect the alert banner to be hidden since submit button was clicked.
     expect(wrapper.find('#alert-banner').exists()).toBeFalsy();
     // Expect the token cookie to have been set.
-    expect(wrapper.vm.$cookies.get('token')).toEqual(MOCK_TOKEN);
+    expect(await wrapper.vm.$cookies.get('token')).toEqual(MOCK_TOKEN);
     // Expect current path to have changed.
-    expect(wrapper.vm.$route.path).toBe('/');
+    expect(wrapper.vm.$route.path).toBe('/chat');
 
     jest.clearAllMocks();
   });

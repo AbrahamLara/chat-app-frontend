@@ -8,14 +8,22 @@
       lg="6"
       md="4"
     >
-      <v-card class="text-h4 text-lg-h1 pa-3 pt-1 pb-1 pa-lg-5 mr-16" tile flat>
+      <v-card
+        class="splash-card-thing text-h4 text-lg-h3 pa-3 pt-1 pb-1 pa-lg-5 mr-16"
+        tile
+        flat
+      >
         Welcome
       </v-card>
-      <v-card class="text-h4 text-lg-h1 pa-3 pt-1 pb-1 pa-lg-5 mt-4" tile flat>
+      <v-card
+        class="splash-card-thing text-h4 text-lg-h3 pa-3 pt-1 pb-1 pa-lg-5 mt-4"
+        tile
+        flat
+      >
         to
       </v-card>
       <v-card
-        class="text-h4 text-lg-h1 pa-3 pt-1 pb-1 pa-lg-5 mt-4 ml-16"
+        class="splash-card-thing text-h4 text-lg-h3 pa-3 pt-1 pb-1 pa-lg-5 mt-4 ml-16"
         tile
         flat
       >
@@ -26,7 +34,7 @@
 </template>
 
 <style lang="sass">
-@use '@/styles/vuetify-vars' as v
+@use '../styles/vuetify-vars' as v
 
 .splash-view
   height: 100%
@@ -40,8 +48,15 @@
 .splash-view_welcome-panel .v-card
   user-select: none
 
-.splash-view_welcome-panel
-  @media screen and (min-width: map-get(v.$grid-breakpoints, 'lg'))
+.splash-view .v-card.splash-card-thing
+  background: rgba(255,255,255, 0.5)
+
+.splash-view .v-card.theme--dark.splash-card-thing
+  background: rgba(30,30,30, 0.5)
+
+//noinspection Stylelint
+@media screen and (min-width: map-get(v.$grid-breakpoints, 'lg'))
+  .splash-view_welcome-panel
     height: inherit
 </style>
 

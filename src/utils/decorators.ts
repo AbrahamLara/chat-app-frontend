@@ -18,15 +18,23 @@ import { DispatchOptions } from 'vuex';
  * }
  * ```
  *
- * @param name The action to dispatch.
+ * @param actionName The action to dispatch.
+ * @param namespace The name.
  * @return Returns a function that accepts a payload and options.
  */
-export function Action(name?: string) {
+export function Action(actionName?: string, namespace?: string) {
   return createDecorator((options, property) => {
     if (!options.methods) {
       options.methods = {};
     }
-    const action = name || property;
+    let action: string;
+    if (actionName && namespace) {
+      action = `${namespace}/${actionName}`;
+    } else if (actionName) {
+      action = actionName;
+    } else {
+      action = property;
+    }
     // The property name will be used as the method name since the property will be used to dispatch the action.
     options.methods[property] = function(
       payload,

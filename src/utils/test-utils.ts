@@ -6,6 +6,35 @@ import appActions from '@/store/actions';
 import appModules from '@/store/modules';
 import { DEFAULT_ROOT_STATE } from '@/store';
 import { FormAlertMessage } from '@/utils/alerts-utils';
+import { createLocalVue } from '@vue/test-utils';
+import VueCookies from 'vue-cookies';
+import Vue from 'vue';
+import Vuetify from 'vuetify';
+
+/**
+ * Describes the available options for setting up a local vue instance for a test file.
+ */
+interface LocalVueSetupOptions {
+  /**
+   * Indicates that vuex plugin should be used.
+   */
+  useVuex?: boolean;
+
+  /**
+   * Indicates that vuetify plugin should be used.
+   */
+  useVuetify?: boolean;
+
+  /**
+   * Indicates that vue cookies plugin should be used.
+   */
+  useVueCookies?: boolean;
+
+  /**
+   * Indicates that vue router plugin should be used.
+   */
+  useVueRouter?: boolean;
+}
 
 /**
  * Resolves a vuetify warning of not being able to locate a data-app attribute on an element because vuetify
@@ -68,4 +97,27 @@ export function createFormAlertMessage(
   message: string
 ): FormAlertMessage {
   return { field, message };
+}
+
+/**
+ * Creates a local vue instance with options to use any vue plugins.
+ */
+export function createLocalVueInstance(options: LocalVueSetupOptions = {}) {
+  const { useVueCookies, useVuex, useVuetify, useVueRouter } = options;
+  const localVue = createLocalVue();
+
+  if (useVueCookies) {
+    Vue.use(VueCookies);
+  }
+  if (useVuex) {
+    localVue.use(Vuex);
+  }
+  if (useVuetify) {
+    Vue.use(Vuetify);
+  }
+  if (useVueRouter) {
+    localVue.use(VueRouter);
+  }
+
+  return localVue;
 }

@@ -69,7 +69,7 @@ import {
   LoginField,
 } from '@/utils/auth-utils';
 import { Action } from '@/utils/decorators';
-import { namespaceAlertsMutation } from '@/store/modules';
+import { namespaceAlerts } from '@/store/modules';
 import { AppState } from '@/store/store-states';
 import {
   DEFAULT_ALERT_BAR_OPTIONS,
@@ -144,7 +144,7 @@ export default class SignIn extends Vue {
    */
   setStateListener(mutation: MutationPayload, state: AppState) {
     switch (mutation.type) {
-      case namespaceAlertsMutation(SET_ERRORS):
+      case namespaceAlerts(SET_ERRORS):
         state.alerts.errors.forEach(({ field, message }: FormAlertMessage) => {
           if (field) {
             this.loginErrors[field as LoginField] = message;
@@ -158,7 +158,7 @@ export default class SignIn extends Vue {
         });
         break;
       case SET_IS_AUTHENTICATED:
-        this.$router.push('/');
+        this.$router.push('/chat');
         break;
       default:
         break;

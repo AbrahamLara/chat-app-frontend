@@ -2,19 +2,17 @@ import { ModuleTree } from 'vuex';
 import { RootState } from '@/store/store-states';
 import alertsModule from '@/store/modules/alerts-module';
 
-const ALERTS_MODULE = 'alerts';
+export const ALERTS_NAMESPACE = 'alerts';
 
 const appModules: ModuleTree<RootState> = {
-  [ALERTS_MODULE]: alertsModule,
+  [ALERTS_NAMESPACE]: alertsModule,
 };
 
 /**
  * This function namespaces the provided mutation name and returns it.
  */
-function namespaceAlertsMutation(mutation: string) {
-  return `${ALERTS_MODULE}/${mutation}`;
+export function namespaceAlerts(mutation: string) {
+  return `${ALERTS_NAMESPACE}/${mutation}`;
 }
 
 export default appModules;
-
-export { ALERTS_MODULE, namespaceAlertsMutation };

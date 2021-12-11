@@ -11,17 +11,17 @@
       </div>
     </router-link>
     <v-spacer></v-spacer>
-    <div
-      id="logout-btn"
-      v-if="showLogout"
-      class="app-bar__btn text-center rounded pa-2 pl-2 pr-2"
-      v-ripple
-      @click="handleLogout"
-    >
-      Logout
-    </div>
-    <template v-else>
-      <div class="d-flex align-center">
+    <div class="d-flex align-center">
+      <div
+        id="logout-btn"
+        v-if="showLogout"
+        class="app-bar__btn text-center rounded pa-2 pl-2 pr-2"
+        v-ripple
+        @click="handleLogout"
+      >
+        Logout
+      </div>
+      <template v-else>
         <router-link
           to="/auth/signin"
           :class="{
@@ -54,29 +54,18 @@
             Sign Up
           </div>
         </router-link>
-        <v-divider
-          class="mx-2 my-auto"
-          style="height: 25px"
-          vertical
-        ></v-divider>
-      </div>
-      <settings-btn></settings-btn>
-    </template>
+      </template>
+      <v-divider class="mx-2 my-auto" style="height: 25px" vertical></v-divider>
+    </div>
+    <settings-btn></settings-btn>
   </v-app-bar>
 </template>
-
-<style>
-.app-bar__btn {
-  width: 80px;
-  user-select: none;
-}
-</style>
 
 <script lang="ts">
 import Vue from 'vue';
 import { Component, PropSync } from 'vue-property-decorator';
 import { THEME } from '@/utils/theme-utils';
-import { namespaceAlertsMutation } from '@/store/modules';
+import { namespaceAlerts } from '@/store/modules';
 import { CLEAR_ALERTS } from '@/store/constants/alerts-constants';
 import { Action } from '@/utils/decorators';
 import { SET_IS_AUTHENTICATED } from '@/store/constants/root-constants';
@@ -100,13 +89,14 @@ export default class AppBar extends Vue {
   showLogout!: boolean;
 
   /**
+   * Determines if app-bar is flat, meaning it has not elevation.
+   */
+  isFlat = true;
+
+  /**
    * The method to call to unsubscribe from a listener.
    */
   unsubscribe!: Function;
-
-  beforeMount() {
-    this.showLogout = Boolean(this.$cookies?.get('token'));
-  }
 
   get isDarkMode() {
     return this.syncedTheme === THEME.DARK;
@@ -116,7 +106,7 @@ export default class AppBar extends Vue {
    * Clear existing alerts in state.
    */
   clearErrors() {
-    this.$store.commit(namespaceAlertsMutation(CLEAR_ALERTS));
+    this.$store.commit(namespaceAlerts(CLEAR_ALERTS));
   }
 
   /**
@@ -137,3 +127,10 @@ export default class AppBar extends Vue {
   }
 }
 </script>
+
+<style>
+.app-bar__btn {
+  user-select: none;
+  width: 80px;
+}
+</style>

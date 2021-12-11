@@ -1,19 +1,14 @@
 // This file contains dynamic imports of components to reduce bundle size when building project with webpack.
 
+// Components
 const getAbout = () =>
   import(/* webpackChunkName: "About" */ '@/components/About.vue');
 
 const getAppBar = () =>
   import(/* webpackChunkName: "AppBar" */ '@/components/AppBar.vue');
 
-const getAuthPage = () =>
-  import(/* webpackChunkName: "AuthPage"  */ '@/views/AuthPage.vue');
-
 const getFormCard = () =>
   import(/* webpackChunkName: "FormCard" */ '@/components/FormCard.vue');
-
-const getNotFound = () =>
-  import(/* webpackChunkName: "NotFound" */ '@/views/NotFound.vue');
 
 const getRegexRulesTester = () =>
   import(
@@ -29,8 +24,18 @@ const getSignIn = () =>
 const getSignUp = () =>
   import(/* webpackChunkName: "SignUp" */ '@/components/SignUp.vue');
 
+// Pages
+const getAuthPage = () =>
+  import(/* webpackChunkName: "AuthPage"  */ '@/views/AuthPage.vue');
+
+const getNotFound = () =>
+  import(/* webpackChunkName: "NotFoundPage" */ '@/views/NotFoundPage.vue');
+
 const getSplash = () =>
-  import(/* webpackChunkName: "Splash" */ '@/views/Splash.vue');
+  import(/* webpackChunkName: "SplashPage" */ '@/views/SplashPage.vue');
+
+const getChatPage = () =>
+  import(/* webpackChunkName: "ChatPage" */ '@/views/ChatPage.vue');
 
 export {
   getAbout,
@@ -43,4 +48,5 @@ export {
   getSignIn,
   getSignUp,
   getSplash,
+  getChatPage,
 };

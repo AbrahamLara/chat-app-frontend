@@ -3,7 +3,7 @@ import { ActionTree } from 'vuex';
 import { RootState } from '@/store/store-states';
 import { THEME } from '@/utils/theme-utils';
 import { loginUser, registerUser } from '@/api/auth-api';
-import { namespaceAlertsMutation } from '@/store/modules';
+import { namespaceAlerts } from '@/store/modules';
 import { createAlertMessage, isFormErrorMessage } from '@/utils/alerts-utils';
 import { LoginFormFields, RegisterFormFields } from '@/utils/auth-utils';
 import {
@@ -29,21 +29,21 @@ const appActions: ActionTree<RootState, RootState> = {
       const data = await res.json();
 
       if (res.ok) {
+        // Store the provided token as a cookie.
+        // Set the cookie to expire at the same time as the cookie.
+        Vue.$cookies.set('token', data.token, '3m');
         // Set the user as authenticated.
         commit(SET_IS_AUTHENTICATED, true);
-        // Store the provided token as a cookie.
-        Vue.$cookies.set('token', data.token, '1h');
       } else if (isFormErrorMessage(data)) {
-        commit(namespaceAlertsMutation(SET_ERRORS), data);
+        commit(namespaceAlerts(SET_ERRORS), data);
       } else {
-        commit(namespaceAlertsMutation(ADD_ERROR), data);
+        commit(namespaceAlerts(ADD_ERROR), data);
       }
     } catch (event) {
-      console.log(event);
       const genericMessage = createAlertMessage(
         'An error occurred trying to sign you in!'
       );
-      commit(namespaceAlertsMutation(ADD_ERROR), genericMessage);
+      commit(namespaceAlerts(ADD_ERROR), genericMessage);
     }
   },
   [REGISTER_USER]: async ({ commit }, registerForm: RegisterFormFields) => {
@@ -52,17 +52,17 @@ const appActions: ActionTree<RootState, RootState> = {
       const data = await res.json();
 
       if (res.ok) {
-        commit(namespaceAlertsMutation(ADD_SUCCESS), data);
+        commit(namespaceAlerts(ADD_SUCCESS), data);
       } else if (isFormErrorMessage(data)) {
-        commit(namespaceAlertsMutation(SET_ERRORS), data);
+        commit(namespaceAlerts(SET_ERRORS), data);
       } else {
-        commit(namespaceAlertsMutation(ADD_ERROR), data);
+        commit(namespaceAlerts(ADD_ERROR), data);
       }
     } catch (event) {
       const genericMessage = createAlertMessage(
         'An error occurred trying to register you!'
       );
-      commit(namespaceAlertsMutation(ADD_ERROR), genericMessage);
+      commit(namespaceAlerts(ADD_ERROR), genericMessage);
     }
   },
   [SET_IS_AUTHENTICATED]: ({ commit }, isAuthenticated: boolean) => {

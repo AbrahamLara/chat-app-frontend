@@ -2,17 +2,18 @@
 import Vuex, { Store } from 'vuex';
 import Vuetify from 'vuetify';
 import Settings from '@/components/Settings.vue';
-import { createLocalVue, mount, Wrapper } from '@vue/test-utils';
-import { createStore, resolveVuetifyAppDataWarning } from '@/utils/test-utils';
+import { mount, Wrapper } from '@vue/test-utils';
+import {
+  createLocalVueInstance,
+  createStore,
+  resolveVuetifyAppDataWarning,
+} from '@/utils/test-utils';
 import { RootState } from '@/store/store-states';
 import { THEME } from '@/utils/theme-utils';
-import Vue from 'vue';
 
 resolveVuetifyAppDataWarning();
 
-const localVue = createLocalVue();
-localVue.use(Vuex);
-Vue.use(Vuetify);
+const localVue = createLocalVueInstance({ useVuex: true, useVuetify: true });
 
 describe('Settings.vue', () => {
   let wrapper: Wrapper<any>;

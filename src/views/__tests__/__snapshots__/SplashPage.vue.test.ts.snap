@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Splash.vue renders splash view correctly 1`] = `
+exports[`SplashPage.vue renders splash view correctly 1`] = `
 <div
   class="splash-view d-flex flex-column-reverse flex-md-row"
 >
@@ -138,7 +138,7 @@ exports[`Splash.vue renders splash view correctly 1`] = `
     class="splash-view_welcome-panel d-flex flex-column align-center justify-center col-md-4 col-lg-6 col"
   >
     <div
-      class="text-h4 text-lg-h1 pa-3 pt-1 pb-1 pa-lg-5 mr-16 v-card v-card--flat v-sheet theme--light rounded-0"
+      class="splash-card-thing text-h4 text-lg-h3 pa-3 pt-1 pb-1 pa-lg-5 mr-16 v-card v-card--flat v-sheet theme--light rounded-0"
     >
       
       Welcome
@@ -146,7 +146,7 @@ exports[`Splash.vue renders splash view correctly 1`] = `
     </div>
      
     <div
-      class="text-h4 text-lg-h1 pa-3 pt-1 pb-1 pa-lg-5 mt-4 v-card v-card--flat v-sheet theme--light rounded-0"
+      class="splash-card-thing text-h4 text-lg-h3 pa-3 pt-1 pb-1 pa-lg-5 mt-4 v-card v-card--flat v-sheet theme--light rounded-0"
     >
       
       to
@@ -154,7 +154,7 @@ exports[`Splash.vue renders splash view correctly 1`] = `
     </div>
      
     <div
-      class="text-h4 text-lg-h1 pa-3 pt-1 pb-1 pa-lg-5 mt-4 ml-16 v-card v-card--flat v-sheet theme--light rounded-0"
+      class="splash-card-thing text-h4 text-lg-h3 pa-3 pt-1 pb-1 pa-lg-5 mt-4 ml-16 v-card v-card--flat v-sheet theme--light rounded-0"
     >
       
       ChatApp!

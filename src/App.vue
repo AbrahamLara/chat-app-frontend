@@ -1,25 +1,15 @@
 <template>
+  <!--suppress Stylelint -->
   <v-app>
-    <v-main>
-      <app-bar
-        :theme="$store.state.theme"
-        :authenticated="$store.state.user.isAuthenticated"
-      ></app-bar>
+    <app-bar
+      :theme="$store.state.theme"
+      :authenticated="$store.state.user.isAuthenticated"
+    ></app-bar>
+    <v-main style="transition: unset;">
       <router-view></router-view>
     </v-main>
   </v-app>
 </template>
-
-<style>
-/*
-  Used so content wouldn't flow out of a device's safe area like where a notch would be on landscape mode for devices
-  with them.
-*/
-.pa-sai {
-  padding: env(safe-area-inset-top) env(safe-area-inset-right)
-    env(safe-area-inset-bottom) env(safe-area-inset-left);
-}
-</style>
 
 <script lang="ts">
 import Vue from 'vue';
@@ -85,3 +75,10 @@ export default class App extends Vue {
   }
 }
 </script>
+
+<style lang="sass">
+// Used so content wouldn't flow out of a device's safe area like where a notch would be on landscape mode for devices
+// with them.
+.pa-sai
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)
+</style>

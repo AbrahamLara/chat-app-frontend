@@ -214,13 +214,48 @@ exports[`AppBar.vue renders the logout button 1`] = `
     />
      
     <div
-      class="app-bar__btn text-center rounded pa-2 pl-2 pr-2"
-      id="logout-btn"
+      class="d-flex align-center"
     >
-      
-    Logout
-  
+      <div
+        class="app-bar__btn text-center rounded pa-2 pl-2 pr-2"
+        id="logout-btn"
+      >
+        
+      Logout
+    
+      </div>
+       
+      <hr
+        aria-orientation="vertical"
+        class="mx-2 my-auto v-divider v-divider--vertical theme--light"
+        role="separator"
+        style="height: 25px;"
+      />
     </div>
+     
+    <div
+      class="v-menu"
+    >
+      <!---->
+    </div>
+    <button
+      aria-expanded="false"
+      aria-haspopup="true"
+      class="v-btn v-btn--flat v-btn--icon v-btn--round theme--light elevation-0 v-size--default"
+      id="settings-btn"
+      role="button"
+      style="font-size: 16px;"
+      type="button"
+    >
+      <span
+        class="v-btn__content"
+      >
+        <i
+          aria-hidden="true"
+          class="v-icon notranslate mdi mdi-cog-outline theme--light"
+        />
+      </span>
+    </button>
   </div>
 </header>
 `;

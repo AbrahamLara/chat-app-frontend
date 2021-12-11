@@ -1,7 +1,8 @@
-import { RouteConfig } from 'vue-router';
+import { NavigationGuardNext, Route, RouteConfig } from 'vue-router';
 import Vue from 'vue';
 import {
   getAuthPage,
+  getChatPage,
   getNotFound,
   getSignIn,
   getSignUp,
@@ -13,19 +14,12 @@ const routes: Array<RouteConfig> = [
     path: '/',
     name: 'Splash',
     component: getSplash,
-    // TODO: Add a navigation guard to prevent authenticated users from visiting this route.
+    beforeEnter: checkIfUserIsAuthenticated,
   },
   {
     path: '/auth',
     component: getAuthPage,
-    beforeEnter: (to, from, next) => {
-      // If the token cookie has been set, prevent access to the authentication page.
-      if (Vue.$cookies.get('token')) {
-        next(false);
-      } else {
-        next();
-      }
-    },
+    beforeEnter: checkIfUserIsAuthenticated,
     children: [
       {
         path: 'signup',
@@ -38,10 +32,38 @@ const routes: Array<RouteConfig> = [
     ],
   },
   {
+    path: '/chat',
+    component: getChatPage,
+    beforeEnter: (to, from, next) => {
+      if (Vue.$cookies.isKey('token')) {
+        next();
+      } else {
+        next('/');
+      }
+    },
+  },
+  {
     path: '*',
     name: 'NotFound',
     component: getNotFound,
   },
 ];
+
+/**
+ * Handles rerouting the user back to the chat page if they are authenticated and trying to access the home or
+ * login/signup page.
+ */
+function checkIfUserIsAuthenticated(
+  to: Route,
+  from: Route,
+  next: NavigationGuardNext<Vue>
+) {
+  // If the token cookie has been set, the user is authenticated and should be redirected to the chat page.
+  if (Vue.$cookies.isKey('token')) {
+    next('/chat');
+  } else {
+    next();
+  }
+}
 
 export { routes };
