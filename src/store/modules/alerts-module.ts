@@ -1,14 +1,16 @@
 import { Module } from 'vuex';
-import { AlertsState, RootState } from '@/store/store-states';
+import { AlertsState, AppState } from '@/store/store-states';
 import alertsMutations from '@/store/mutations/alerts-mutations';
 import alertsActions from '@/store/actions/alerts-actions';
 
 const DEFAULT_ALERTS_STATE: AlertsState = {
-  errors: [],
-  successes: [],
+  alerts: {
+    errors: [],
+    successes: [],
+  },
 };
 
-const alertsModule: Module<AlertsState, RootState> = {
+const alertsModule: Module<AlertsState, AppState> = {
   namespaced: true,
   state: { ...DEFAULT_ALERTS_STATE },
   mutations: alertsMutations,

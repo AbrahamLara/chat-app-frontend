@@ -3,7 +3,7 @@
   <v-app>
     <app-bar
       :theme="$store.state.theme"
-      :authenticated="$store.state.user.isAuthenticated"
+      :authenticated="$store.state.auth.isAuthenticated"
     ></app-bar>
     <v-main style="transition: unset;">
       <router-view></router-view>
@@ -17,11 +17,10 @@ import { Component } from 'vue-property-decorator';
 import { MutationPayload } from 'vuex';
 import { THEME, ThemeHexes } from '@/utils/theme-utils';
 import { Action } from '@/utils/decorators';
-import {
-  SET_IS_AUTHENTICATED,
-  SET_THEME,
-} from '@/store/constants/root-constants';
+import { SET_THEME } from '@/store/constants/root-constants';
 import { getAppBar } from '@/utils/dynamic-imports';
+import { AUTH_NAMESPACE } from '@/store/modules';
+import { SET_IS_AUTHENTICATED } from '@/store/constants/auth-constants';
 
 @Component({
   name: 'app',
@@ -30,7 +29,7 @@ import { getAppBar } from '@/utils/dynamic-imports';
   },
 })
 export default class App extends Vue {
-  @Action(SET_IS_AUTHENTICATED) authenticateUser!: Function;
+  @Action(SET_IS_AUTHENTICATED, AUTH_NAMESPACE) authenticateUser!: Function;
 
   unsubscribe!: () => void;
 

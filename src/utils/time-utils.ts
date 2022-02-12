@@ -8,6 +8,6 @@ const timeAgo = new TimeAgo('en-US');
  *
  * @param value date/time string.
  */
-export function toTwitterTimeAgoLabel(value: string | number) {
+export function getTwitterTimeAgoLabel(value: string | number) {
   return timeAgo.format(new Date(value), 'twitter');
 }

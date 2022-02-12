@@ -69,25 +69,25 @@ import {
   LoginField,
 } from '@/utils/auth-utils';
 import { Action } from '@/utils/decorators';
-import { namespaceAlerts } from '@/store/modules';
+import { AUTH_NAMESPACE, namespaceAuth } from '@/store/modules';
 import { AppState } from '@/store/store-states';
 import {
   DEFAULT_ALERT_BAR_OPTIONS,
   FormAlertMessage,
 } from '@/utils/alerts-utils';
-import { SET_ERRORS } from '@/store/constants/alerts-constants';
+import { ADD_ERROR, SET_ERRORS } from '@/store/constants/alerts-constants';
+import { getFormCard } from '@/utils/dynamic-imports';
 import {
   LOGIN_USER,
   SET_IS_AUTHENTICATED,
-} from '@/store/constants/root-constants';
-import { getFormCard } from '@/utils/dynamic-imports';
+} from '@/store/constants/auth-constants';
 
 @Component({
   name: 'SignIn',
   components: { 'form-card': getFormCard },
 })
 export default class SignIn extends Vue {
-  @Action(LOGIN_USER) private submitLoginForm!: Function;
+  @Action(LOGIN_USER, AUTH_NAMESPACE) private submitLoginForm!: Function;
 
   /**
    * Rules to determine a valid email input.
@@ -144,20 +144,25 @@ export default class SignIn extends Vue {
    */
   setStateListener(mutation: MutationPayload, state: AppState) {
     switch (mutation.type) {
-      case namespaceAlerts(SET_ERRORS):
-        state.alerts.errors.forEach(({ field, message }: FormAlertMessage) => {
-          if (field) {
-            this.loginErrors[field as LoginField] = message;
-          } else {
-            this.alertBarOptions = {
-              visible: true,
-              type: 'error',
-              message,
-            };
-          }
-        });
+      case namespaceAuth(ADD_ERROR):
+      case namespaceAuth(SET_ERRORS):
+        if (state.auth) {
+          state.auth.alerts.errors.forEach(
+            ({ field, message }: FormAlertMessage) => {
+              if (field) {
+                this.loginErrors[field as LoginField] = message;
+              } else {
+                this.alertBarOptions = {
+                  visible: true,
+                  type: 'error',
+                  message,
+                };
+              }
+            }
+          );
+        }
         break;
-      case SET_IS_AUTHENTICATED:
+      case namespaceAuth(SET_IS_AUTHENTICATED):
         this.$router.push('/chat');
         break;
       default:

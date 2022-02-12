@@ -8,7 +8,7 @@ import {
   createStore,
   resolveVuetifyAppDataWarning,
 } from '@/utils/test-utils';
-import { RootState } from '@/store/store-states';
+import { AppState } from '@/store/store-states';
 import { THEME } from '@/utils/theme-utils';
 
 resolveVuetifyAppDataWarning();
@@ -17,7 +17,7 @@ const localVue = createLocalVueInstance({ useVuex: true, useVuetify: true });
 
 describe('Settings.vue', () => {
   let wrapper: Wrapper<any>;
-  let store: Store<RootState>;
+  let store: Store<AppState>;
 
   beforeEach(() => {
     const vuetify = new Vuetify();

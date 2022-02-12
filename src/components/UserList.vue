@@ -4,7 +4,7 @@
       <v-list-item-title v-text="name"></v-list-item-title>
     </v-list-item>
     <v-divider></v-divider>
-    <div v-if="loading" class="d-flex justify-center mt-5">
+    <div v-if="loading" class="d-flex flex align-center justify-center mt-5">
       <v-progress-circular
         size="50"
         color="primary"

@@ -54,7 +54,6 @@
           :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
           :type="showPassword ? 'text' : 'password'"
           @click:append="showPassword = !showPassword"
-          @keyup="handleConfPasswordMatch"
           @keydown="registerErrors.password && resetRegisterError('password')"
           required
         ></v-text-field>
@@ -75,7 +74,7 @@
           :success="Boolean(registerValues.confPassword)"
           :error-messages="registerErrors.confPassword"
           :type="showPassword ? 'text' : 'password'"
-          @keyup="handleConfPasswordMatch"
+          @blur="handleConfPasswordMatch"
           @keydown="
             registerErrors.confPassword && resetRegisterError('confPassword')
           "
@@ -124,14 +123,14 @@ import {
 } from '@/utils/alerts-utils';
 import { MutationPayload } from 'vuex';
 import { AppState } from '@/store/store-states';
-import { namespaceAlerts } from '@/store/modules';
+import { AUTH_NAMESPACE, namespaceAuth } from '@/store/modules';
 import {
   ADD_ERROR,
   ADD_SUCCESS,
   SET_ERRORS,
 } from '@/store/constants/alerts-constants';
-import { REGISTER_USER } from '@/store/constants/root-constants';
 import { getFormCard, getRegexRulesTester } from '@/utils/dynamic-imports';
+import { REGISTER_USER } from '@/store/constants/auth-constants';
 
 @Component({
   name: 'SignUp',
@@ -141,7 +140,7 @@ import { getFormCard, getRegexRulesTester } from '@/utils/dynamic-imports';
   },
 })
 export default class SignUp extends Vue {
-  @Action(REGISTER_USER) submitRegisterForm!: Function;
+  @Action(REGISTER_USER, AUTH_NAMESPACE) submitRegisterForm!: Function;
 
   /**
    * Rules to determine a valid name input.
@@ -218,27 +217,33 @@ export default class SignUp extends Vue {
    */
   setAlertsListener(mutation: MutationPayload, state: AppState) {
     switch (mutation.type) {
-      case namespaceAlerts(SET_ERRORS):
-      case namespaceAlerts(ADD_ERROR):
-        state.alerts.errors.forEach(({ field, message }: FormAlertMessage) => {
-          if (field) {
-            this.registerErrors[field as RegisterFormField] = message;
-          } else {
-            this.alertBarOptions = {
-              visible: true,
-              type: 'error',
-              message: message,
-            };
-          }
-        });
+      case namespaceAuth(SET_ERRORS):
+      case namespaceAuth(ADD_ERROR):
+        if (state.auth) {
+          state.auth.alerts.errors.forEach(
+            ({ field, message }: FormAlertMessage) => {
+              if (field) {
+                this.registerErrors[field as RegisterFormField] = message;
+              } else {
+                this.alertBarOptions = {
+                  visible: true,
+                  type: 'error',
+                  message,
+                };
+              }
+            }
+          );
+        }
         break;
-      case namespaceAlerts(ADD_SUCCESS):
-        this.alertBarOptions = {
-          visible: true,
-          type: 'success',
-          // We should only expect 1 success message on this page, so use the latest item in the array.
-          message: state.alerts.successes[0].message,
-        };
+      case namespaceAuth(ADD_SUCCESS):
+        if (state.auth) {
+          this.alertBarOptions = {
+            visible: true,
+            type: 'success',
+            // We should only expect 1 success message on this page, so use the latest item in the array.
+            message: state.auth.alerts.successes[0].message,
+          };
+        }
 
         // Prevent the user from being able to register again. This should force them to visit the login page. This is
         // intentional for this project in order to for users to visit the login page to test. Ideally the user would be

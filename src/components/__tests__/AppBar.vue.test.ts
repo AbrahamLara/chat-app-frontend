@@ -2,18 +2,18 @@ import { mount, Wrapper } from '@vue/test-utils';
 import Vuex, { Store } from 'vuex';
 import Vuetify from 'vuetify';
 import AppBar from '@/components/AppBar.vue';
-import { AppState, RootState } from '@/store/store-states';
-import { namespaceAlerts } from '@/store/modules';
+import { AppState } from '@/store/store-states';
+import { namespaceAuth } from '@/store/modules';
 import { ADD_ERROR, ADD_SUCCESS } from '@/store/constants/alerts-constants';
 import { createAlertMessage } from '@/utils/alerts-utils';
 import VueRouter from 'vue-router';
-import { SET_IS_AUTHENTICATED } from '@/store/constants/root-constants';
 import { THEME } from '@/utils/theme-utils';
 import {
   createLocalVueInstance,
   createRouter,
   createStore,
 } from '@/utils/test-utils';
+import { SET_IS_AUTHENTICATED } from '@/store/constants/auth-constants';
 
 const localVue = createLocalVueInstance({
   useVuetify: true,
@@ -25,33 +25,33 @@ const localVue = createLocalVueInstance({
 async function expectAlertsToClearFor(
   btnId: string,
   wrapper: Wrapper<any>,
-  store: Store<RootState>
+  store: Store<AppState>
 ) {
   const state = store.state as AppState;
 
   // Make sure there are no alerts by default.
-  expect(state.alerts.errors.length).toEqual(0);
-  expect(state.alerts.successes.length).toEqual(0);
+  expect(state.auth?.alerts.errors.length).toEqual(0);
+  expect(state.auth?.alerts.successes.length).toEqual(0);
 
   // Add error and success alerts to state.
-  store.commit(namespaceAlerts(ADD_ERROR), createAlertMessage('error1'));
-  store.commit(namespaceAlerts(ADD_SUCCESS), createAlertMessage('success1'));
+  store.commit(namespaceAuth(ADD_ERROR), createAlertMessage('error1'));
+  store.commit(namespaceAuth(ADD_SUCCESS), createAlertMessage('success1'));
 
   // Expect state to contain both newly added alerts.
-  expect(state.alerts.errors.length).toEqual(1);
-  expect(state.alerts.successes.length).toEqual(1);
+  expect(state.auth?.alerts.errors.length).toEqual(1);
+  expect(state.auth?.alerts.successes.length).toEqual(1);
 
   // Manually trigger the click event for the provided btn id.
   await wrapper.find(`#${btnId}`).trigger('click');
 
   // Expect there to be no alerts after triggering the click.
-  expect(state.alerts.errors.length).toEqual(0);
-  expect(state.alerts.successes.length).toEqual(0);
+  expect(state.auth?.alerts.errors.length).toEqual(0);
+  expect(state.auth?.alerts.successes.length).toEqual(0);
 }
 
 describe('AppBar.vue', () => {
   let wrapper: Wrapper<any>;
-  let store: Store<RootState>;
+  let store: Store<AppState>;
   let router: VueRouter;
 
   beforeEach(() => {
@@ -91,13 +91,13 @@ describe('AppBar.vue', () => {
 
   it('un-authenticates the user when clicking logout', async () => {
     // Make sure user is not authenticated by default.
-    expect(store.state.user.isAuthenticated).toBeFalsy();
+    expect(store.state.auth?.isAuthenticated).toBeFalsy();
 
     // Manually set user as authenticated.
-    store.commit(SET_IS_AUTHENTICATED, true);
+    store.commit(namespaceAuth(SET_IS_AUTHENTICATED), true);
 
     // Expect the isAuthenticated state to be true.
-    expect(store.state.user.isAuthenticated).toBeTruthy();
+    expect(store.state.auth?.isAuthenticated).toBeTruthy();
 
     // Set the current route to '/test'
     await router.push('/test');
@@ -120,7 +120,7 @@ describe('AppBar.vue', () => {
     expect(cookie2).toBeNull();
 
     // Expect the user to no longer be authenticated after clicking logout.
-    expect(store.state.user.isAuthenticated).toBeFalsy();
+    expect(store.state.auth?.isAuthenticated).toBeFalsy();
 
     // Expect the current route to be '/' after clicking logout.
     expect(router.currentRoute.path).toBe('/');

@@ -1,6 +1,6 @@
 import { getBrowserCookie } from '@/utils/misc-utils';
 
-const SEARCH_API_URL = '/api/search';
+const SEARCH_API_PATH = '/api/search';
 
 /**
  * This function handles making a request to the search api to return user results.
@@ -9,7 +9,7 @@ const SEARCH_API_URL = '/api/search';
  */
 export function searchUser(value: string) {
   const token = getBrowserCookie('token');
-  return fetch(`${SEARCH_API_URL}/user?name=${value}`, {
+  return fetch(`${SEARCH_API_PATH}/user?name=${value}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

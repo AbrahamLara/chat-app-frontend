@@ -65,11 +65,11 @@
 import Vue from 'vue';
 import { Component, PropSync } from 'vue-property-decorator';
 import { THEME } from '@/utils/theme-utils';
-import { namespaceAlerts } from '@/store/modules';
+import { AUTH_NAMESPACE, namespaceAuth, namespaceChats } from '@/store/modules';
 import { CLEAR_ALERTS } from '@/store/constants/alerts-constants';
 import { Action } from '@/utils/decorators';
-import { SET_IS_AUTHENTICATED } from '@/store/constants/root-constants';
 import { getSettings } from '@/utils/dynamic-imports';
+import { SET_IS_AUTHENTICATED } from '@/store/constants/auth-constants';
 
 @Component({
   name: 'app-bar',
@@ -78,7 +78,7 @@ import { getSettings } from '@/utils/dynamic-imports';
   },
 })
 export default class AppBar extends Vue {
-  @Action(SET_IS_AUTHENTICATED) authenticateUser!: Function;
+  @Action(SET_IS_AUTHENTICATED, AUTH_NAMESPACE) authenticateUser!: Function;
   /**
    * Prop sync is used so that the app bar can handle determining if dark mode is in use by just receiving the theme as
    * it changes.
@@ -89,7 +89,7 @@ export default class AppBar extends Vue {
   showLogout!: boolean;
 
   /**
-   * Determines if app-bar is flat, meaning it has not elevation.
+   * Determines if app-bar is flat, meaning it has no elevation.
    */
   isFlat = true;
 
@@ -106,7 +106,7 @@ export default class AppBar extends Vue {
    * Clear existing alerts in state.
    */
   clearErrors() {
-    this.$store.commit(namespaceAlerts(CLEAR_ALERTS));
+    this.$store.commit(namespaceAuth(CLEAR_ALERTS));
   }
 
   /**
@@ -117,6 +117,9 @@ export default class AppBar extends Vue {
     this.$cookies.remove('token');
 
     this.authenticateUser(false);
+
+    // Clear chat page errors.
+    this.$store.commit(namespaceChats(CLEAR_ALERTS));
 
     // This is to prevent a NavigationDuplicated error if the current page is the home page. This shouldn't be needed
     // once there is a page to navigate the user to that isn't the home page and a navigation guard is added to the

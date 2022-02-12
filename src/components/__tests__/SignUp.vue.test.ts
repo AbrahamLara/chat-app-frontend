@@ -2,7 +2,7 @@ import Vuex, { Store } from 'vuex';
 import VueRouter from 'vue-router';
 import Vuetify from 'vuetify';
 import { mount, Wrapper } from '@vue/test-utils';
-import { RootState } from '@/store/store-states';
+import { AppState } from '@/store/store-states';
 import {
   createFormAlertMessage,
   createLocalVueInstance,
@@ -10,7 +10,7 @@ import {
   createStore,
 } from '@/utils/test-utils';
 import SignUp from '@/components/SignUp.vue';
-import { namespaceAlerts } from '@/store/modules';
+import { namespaceAuth } from '@/store/modules';
 import { SET_ERRORS } from '@/store/constants/alerts-constants';
 import { createAlertMessage } from '@/utils/alerts-utils';
 import mockFetch from '../../../__mocks__/cross-fetch';
@@ -30,7 +30,7 @@ describe('SignUp.vue', () => {
   const BANNER_ERROR = 'banner error';
 
   let wrapper: Wrapper<any>;
-  let store: Store<RootState>;
+  let store: Store<AppState>;
   let router: VueRouter;
 
   beforeEach(() => {
@@ -72,10 +72,6 @@ describe('SignUp.vue', () => {
     // Expect no confirmation password error.
     expect(wrapper.vm.registerErrors.confPassword).toBeFalsy();
 
-    await wrapper.find('#conf-password-input').trigger('keyup');
-    // Expect a confirmation password error.
-    expect(wrapper.vm.registerErrors.confPassword).toBeTruthy();
-
     // Update confirmation password to math password input value.
     DEFAULT_REGISTER_VALUES.registerValues.confPassword = 'testing';
     // Update register values with new confirmation password value.
@@ -94,7 +90,7 @@ describe('SignUp.vue', () => {
     expect(wrapper.html()).toMatchSnapshot();
 
     // Add errors to state.
-    store.commit(namespaceAlerts(SET_ERRORS), {
+    store.commit(namespaceAuth(SET_ERRORS), {
       errors: [
         createAlertMessage(BANNER_ERROR),
         createFormAlertMessage('name', 'name error'),
@@ -145,7 +141,7 @@ describe('SignUp.vue', () => {
     expect(wrapper.find('#alert-banner.error').exists()).toBeFalsy();
 
     // Add banner error.
-    store.commit(namespaceAlerts(SET_ERRORS), {
+    store.commit(namespaceAuth(SET_ERRORS), {
       errors: [createAlertMessage(BANNER_ERROR)],
     });
 

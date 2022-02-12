@@ -10,17 +10,17 @@ import {
 
 const alertsMutations: MutationTree<AlertsState> = {
   [SET_ERRORS]: (state: AlertsState, errorPayload: ErrorPayload) => {
-    state.errors = errorPayload.errors;
+    state.alerts.errors = errorPayload.errors;
   },
   [ADD_ERROR]: (state: AlertsState, error: AlertMessage) => {
-    state.errors.push(error);
+    state.alerts.errors.push(error);
   },
   [ADD_SUCCESS]: (state: AlertsState, success: AlertMessage) => {
-    state.successes.push(success);
+    state.alerts.successes.push(success);
   },
   [CLEAR_ALERTS]: (state: AlertsState) => {
-    state.errors = [];
-    state.successes = [];
+    state.alerts.errors = [];
+    state.alerts.successes = [];
   },
 };
 

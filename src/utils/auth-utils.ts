@@ -1,4 +1,5 @@
 import { UserState } from '@/store/store-states';
+import { DEFAULT_ALERTS_STATE } from '@/store/modules/alerts-module';
 
 /**
  * Login form fields definition.
@@ -72,6 +73,7 @@ export const PASSWORD_REGEX_RULES: RegexRule[] = [
 ];
 
 export const DEFAULT_USER_STATE: UserState = {
+  ...DEFAULT_ALERTS_STATE,
   isAuthenticated: false,
 };
 
@@ -86,6 +88,8 @@ export const DEFAULT_REGISTER_FORM_FIELDS: RegisterFormFields = {
   password: '',
   confPassword: '',
 };
+
+export const INVALID_TOKEN_MESSAGE = 'The provided token is invalid';
 
 /**
  * Determines if the provided object is a message about an invalid token.

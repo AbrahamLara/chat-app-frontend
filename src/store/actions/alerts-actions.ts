@@ -1,15 +1,11 @@
 import { ActionTree } from 'vuex';
-import { AlertsState, RootState } from '@/store/store-states';
-import { namespaceAlerts } from '@/store/modules';
-import { CLEAR_ALERTS, SET_ERRORS } from '@/store/constants/alerts-constants';
+import { AlertsState, AppState } from '@/store/store-states';
+import { CLEAR_ALERTS } from '@/store/constants/alerts-constants';
 
-const alertsActions: ActionTree<AlertsState, RootState> = {
+const alertsActions: ActionTree<AlertsState, AppState> = {
   [CLEAR_ALERTS]: ({ commit }) => {
-    commit(namespaceAlerts(CLEAR_ALERTS));
+    commit(CLEAR_ALERTS);
   },
-  // [SET_ERRORS]: ({ commit}) => {
-  //
-  // },
 };
 
 export default alertsActions;

@@ -3,7 +3,7 @@ import VueRouter from 'vue-router';
 import Vuetify from 'vuetify';
 import SignIn from '@/components/SignIn.vue';
 import mockFetch from '../../../__mocks__/cross-fetch';
-import { RootState } from '@/store/store-states';
+import { AppState } from '@/store/store-states';
 import { mount, Wrapper } from '@vue/test-utils';
 import {
   createFormAlertMessage,
@@ -11,7 +11,7 @@ import {
   createRouter,
   createStore,
 } from '@/utils/test-utils';
-import { namespaceAlerts } from '@/store/modules';
+import { namespaceAuth } from '@/store/modules';
 import { SET_ERRORS } from '@/store/constants/alerts-constants';
 import { createAlertMessage } from '@/utils/alerts-utils';
 
@@ -31,7 +31,7 @@ describe('SignIn.vue', () => {
   const BANNER_ERROR = 'banner error';
 
   let wrapper: Wrapper<any>;
-  let store: Store<RootState>;
+  let store: Store<AppState>;
   let router: VueRouter;
 
   beforeEach(() => {
@@ -48,8 +48,6 @@ describe('SignIn.vue', () => {
   });
 
   it('unsubscribes from listener when destroyed', async () => {
-    // Mount the component.
-    await wrapper.vm.$mount();
     // Spy on the unsubscribe model attribute.
     const spy = jest.spyOn(wrapper.vm, 'unsubscribe');
     // Destroy the component to unsubscribe from listener.
@@ -60,14 +58,11 @@ describe('SignIn.vue', () => {
   });
 
   it('handles error alerts based on interaction', async () => {
-    // Mount the component in order to set the listener.
-    await wrapper.vm.$mount();
-
     // Expect no login errors in the form.
     expect(wrapper.html()).toMatchSnapshot();
 
     // Add errors to state.
-    store.commit(namespaceAlerts(SET_ERRORS), {
+    store.commit(namespaceAuth(SET_ERRORS), {
       errors: [
         createAlertMessage(BANNER_ERROR),
         createFormAlertMessage('email', 'email error'),
@@ -104,9 +99,6 @@ describe('SignIn.vue', () => {
       })
     );
 
-    // Mount the component in order to set the listener.
-    await wrapper.vm.$mount();
-
     // Set the current path to sign in path
     await router.push(MOCK_SIGN_IN_PATH);
 
@@ -114,7 +106,7 @@ describe('SignIn.vue', () => {
     expect(wrapper.find('#alert-banner').exists()).toBeFalsy();
 
     // Add banner error.
-    store.commit(namespaceAlerts(SET_ERRORS), {
+    store.commit(namespaceAuth(SET_ERRORS), {
       errors: [createAlertMessage(BANNER_ERROR)],
     });
 
