@@ -7,9 +7,21 @@ const SEARCH_API_PATH = '/api/search';
  *
  * @param value The value to use to search for users.
  */
-export function searchUser(value: string) {
+export function searchUsers(value: string) {
   const token = getBrowserCookie('token');
-  return fetch(`${SEARCH_API_PATH}/user?name=${value}`, {
+  return fetch(`${SEARCH_API_PATH}/users?name=${value}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}
+
+/**
+ * This function handles making a request to the search api to return a user profile.
+ */
+export function getUserProfile() {
+  const token = getBrowserCookie('token');
+  return fetch(`${SEARCH_API_PATH}/user/profile`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

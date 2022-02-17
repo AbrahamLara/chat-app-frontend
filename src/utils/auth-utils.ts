@@ -1,5 +1,6 @@
 import { UserState } from '@/store/store-states';
 import { DEFAULT_ALERTS_STATE } from '@/store/modules/alerts-module';
+import { cloneObject } from '@/utils/misc-utils';
 
 /**
  * Login form fields definition.
@@ -28,11 +29,32 @@ export type RegisterFormField = keyof RegisterFormFields;
 export interface RegexRule {
   regex: RegExp;
 
-  // The rule the represents regex being tested.
+  /**
+   * The rule the represents regex being tested.
+   */
   rule: string;
 
-  // Determines if the regex test passed or not.
+  /**
+   * Determines if the regex test passed or not.
+   */
   passed?: boolean;
+}
+
+export interface UserProfile {
+  /**
+   * The id of the authenticated user.
+   */
+  id: string;
+
+  /**
+   * The name of the authenticated user.
+   */
+  name: string;
+
+  /**
+   * The email of the authenticated user.
+   */
+  email: string;
 }
 
 /**
@@ -72,9 +94,16 @@ export const PASSWORD_REGEX_RULES: RegexRule[] = [
   },
 ];
 
+export const DEFAULT_USER_PROFILE = {
+  id: '',
+  name: '',
+  email: '',
+};
+
 export const DEFAULT_USER_STATE: UserState = {
-  ...DEFAULT_ALERTS_STATE,
+  ...cloneObject(DEFAULT_ALERTS_STATE),
   isAuthenticated: false,
+  user: DEFAULT_USER_PROFILE,
 };
 
 export const DEFAULT_LOGIN_FORM_FIELDS: LoginFormFields = {

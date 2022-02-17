@@ -145,7 +145,7 @@
 import { Component } from 'vue-property-decorator';
 import UserList from '@/components/UserList.vue';
 import UserListItem from '@/components/UserListItem.vue';
-import { searchUser } from '@/api/search-api';
+import { searchUsers } from '@/api/search-api';
 import { isInvalidTokenMessage } from '@/utils/auth-utils';
 import { UserItem } from '@/utils/misc-utils';
 import { Action } from '@/utils/decorators';
@@ -367,7 +367,7 @@ export default class CreateChatDialog extends VueAuthHelper {
    */
   async userSearch(value: string) {
     try {
-      const response = await searchUser(value);
+      const response = await searchUsers(value);
       const data = await response.json();
 
       if (response.ok) {
@@ -377,7 +377,7 @@ export default class CreateChatDialog extends VueAuthHelper {
       } else {
         this.searchResults = [];
       }
-    } catch (event) {
+    } catch {
       this.searchErrorMessage = 'An error occurred performing a search.';
     }
 
@@ -449,4 +449,6 @@ export default class CreateChatDialog extends VueAuthHelper {
 
   & .create-dialog__list-container
     height: 100%
+    & .user-list-item .v-avatar
+      margin-right: 10px
 </style>

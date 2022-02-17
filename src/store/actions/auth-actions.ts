@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import { ActionTree } from 'vuex';
+import { ActionTree, Commit } from 'vuex';
 import { AppState, UserState } from '@/store/store-states';
 import {
   ADD_ERROR,
@@ -10,11 +10,14 @@ import { LoginFormFields, RegisterFormFields } from '@/utils/auth-utils';
 import { loginUser, registerUser } from '@/api/auth-api';
 import { createAlertMessage, isFormErrorMessage } from '@/utils/alerts-utils';
 import {
+  GET_USER_PROFILE,
   LOGIN_USER,
   REGISTER_USER,
   SET_IS_AUTHENTICATED,
+  SET_USER_PROFILE,
 } from '@/store/constants/auth-constants';
 import alertsActions from '@/store/actions/alerts-actions';
+import { getUserProfile } from '@/api/search-api';
 
 const authActions: ActionTree<UserState, AppState> = {
   [LOGIN_USER]: async ({ commit }, loginForm: LoginFormFields) => {
@@ -33,7 +36,7 @@ const authActions: ActionTree<UserState, AppState> = {
       } else {
         commit(ADD_ERROR, data);
       }
-    } catch (event) {
+    } catch {
       const genericMessage = createAlertMessage(
         'An error occurred trying to sign you in!'
       );
@@ -52,11 +55,25 @@ const authActions: ActionTree<UserState, AppState> = {
       } else {
         commit(ADD_ERROR, data);
       }
-    } catch (event) {
+    } catch {
       const genericMessage = createAlertMessage(
         'An error occurred trying to register you!'
       );
       commit(ADD_ERROR, genericMessage);
+    }
+  },
+  [GET_USER_PROFILE]: async ({ commit }) => {
+    try {
+      const res = await getUserProfile();
+      const data = await res.json();
+
+      if (res.ok) {
+        commit(SET_USER_PROFILE, data);
+      } else {
+        unAuthenticateUser(commit);
+      }
+    } catch {
+      unAuthenticateUser(commit);
     }
   },
   [SET_IS_AUTHENTICATED]: ({ commit }, isAuthenticated: boolean) => {
@@ -64,5 +81,13 @@ const authActions: ActionTree<UserState, AppState> = {
   },
   ...alertsActions,
 };
+
+function unAuthenticateUser(commit: Commit) {
+  if (!process.env.JEST_WORKER_ID) {
+    console.error('An error occurred trying to fetch profile!');
+  }
+  Vue.$cookies.remove('token');
+  commit(SET_IS_AUTHENTICATED, false);
+}
 
 export default authActions;

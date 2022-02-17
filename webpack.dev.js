@@ -7,9 +7,13 @@ module.exports = getWebpackConfig({
     port: 8080,
     historyApiFallback: true,
     open: true,
-    host: process.env.DEV_SERVER_HOST,
+    // host: process.env.DEV_SERVER_HOST,
     proxy: {
       '/api': 'http://localhost:5000',
+      '/socket.io': {
+        target: 'http://localhost:8000/',
+        ws: true,
+      },
     },
   },
 });

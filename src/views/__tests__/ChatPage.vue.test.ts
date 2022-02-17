@@ -1,6 +1,5 @@
 import {
   createLocalVueInstance,
-  createRouter,
   createStore,
   resolveVuetifyAppDataWarning,
 } from '@/utils/test-utils';
@@ -12,32 +11,41 @@ import { AppState } from '@/store/store-states';
 import VueRouter from 'vue-router';
 import CreateChatDialog from '@/components/CreateDialog.vue';
 import mockFetch from '../../../__mocks__/cross-fetch';
+import { UserChatItem } from '@/utils/chat-utils';
+import { namespaceChats } from '@/store/modules';
+import { SET_CHATS_LIST } from '@/store/constants/chats-constants';
 
 jest.mock('cross-fetch');
 
-const MOCK_CHATS = [
+const MOCK_CHATS: UserChatItem[] = [
   {
+    id: 'chat-1',
     name: 'A chat title',
     message: {
+      id: 'message-1',
       author: 'Roy Speer',
       text: 'message',
-      createAt: new Date().getUTCDate(),
+      createdAt: 'Thu, 17 Feb 2022 03:31:48 GMT',
     },
   },
   {
+    id: 'chat-2',
     name: 'Hello, world!',
     message: {
+      id: 'message-2',
       author: 'Mark Wood',
       text: 'message',
-      createAt: new Date().getUTCDate(),
+      createdAt: 'Thu, 17 Feb 2022 03:31:48 GMT',
     },
   },
   {
+    id: 'chat0-3',
     name: 'Some club',
     message: {
+      id: 'message-3',
       author: 'Nicholas Gonzalez',
       text: 'message',
-      createAt: new Date().getUTCDate(),
+      createdAt: 'Thu, 17 Feb 2022 03:31:48 GMT',
     },
   },
 ];
@@ -61,12 +69,8 @@ describe('ChatPage.vue', () => {
     store = createStore(Vuex);
 
     // Mock fetching the user's chat list before the component mounts.
-    mockFetch.mockImplementationOnce(() =>
-      Promise.resolve({
-        ok: true,
-        json: () => Promise.resolve({ chats: [] }),
-      })
-    );
+    mockFetchCall({ chats: [] });
+    mockFetchCall({});
 
     wrapper = mount(ChatPage, {
       localVue,
@@ -83,13 +87,13 @@ describe('ChatPage.vue', () => {
     // Expect the chat list to be empty.
     expect(wrapper.html().includes('No chats to display!')).toEqual(true);
 
-    // Add a mock chats list.
-    wrapper.vm.chats = MOCK_CHATS;
+    // Update store with chats.
+    await store.commit(namespaceChats(SET_CHATS_LIST), MOCK_CHATS);
 
     await wrapper.vm.$nextTick();
 
     // Fetch the user chat items from the dom.
-    const userChatItemWrapperArray = wrapper.findAll('.user-chat-item');
+    const userChatItemWrapperArray = wrapper.findAll('.chat-list-item');
 
     // Expect the dom tp have multiple user chat items rendered.
     expect(userChatItemWrapperArray.length).toBeGreaterThan(0);
@@ -129,3 +133,12 @@ describe('ChatPage.vue', () => {
     );
   });
 });
+
+function mockFetchCall(data: unknown) {
+  mockFetch.mockImplementationOnce(() =>
+    Promise.resolve({
+      ok: true,
+      json: () => Promise.resolve(data),
+    })
+  );
+}

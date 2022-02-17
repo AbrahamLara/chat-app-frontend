@@ -1,9 +1,13 @@
 import { ChatsState } from '@/store/store-states';
 import { DEFAULT_ALERTS_STATE } from '@/store/modules/alerts-module';
+import { MessageAuthor, MessageItem } from '@/utils/message-utils';
+import { cloneObject } from '@/utils/misc-utils';
 
 export const DEFAULT_CHATS_STATE: ChatsState = {
-  ...DEFAULT_ALERTS_STATE,
+  ...cloneObject(DEFAULT_ALERTS_STATE),
   chats: [],
+  userTypingMap: new Map<string, MessageAuthor[]>(),
+  currentChatID: '',
 };
 
 export const CREATE_CHAT_SUCCESS_MESSAGE = 'Successfully created chat';
@@ -39,20 +43,14 @@ export interface UserChatItem {
   /**
    * The object representing the chat message sent to the chat.
    */
-  message: {
-    /**
-     * The chat message text send by the author.
-     */
-    text: string;
+  message: Omit<MessageItem, 'author'> & { author: string };
+}
 
-    /**
-     * The author of the chat message.
-     */
-    author: string;
+export interface ChatCreatedData {
+  chat: UserChatItem;
 
-    /**
-     * The timestamp of when the chat message was created.
-     */
-    createdAt: string;
-  };
+  /**
+   * A list of user ids from members part of the newly created chat.
+   */
+  memberIDs: string[];
 }

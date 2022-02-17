@@ -1,5 +1,6 @@
 import fetch from 'cross-fetch';
 import { CreateChatFormFields } from '@/utils/chat-utils';
+import { getBrowserCookie } from '@/utils/misc-utils';
 
 const CHAT_API_PATH = '/api/chat';
 
@@ -7,12 +8,10 @@ const CHAT_API_PATH = '/api/chat';
  * This function handles making an api call to create a group chat.
  *
  * @param createChatForm Form values for creating a group chat.
- * @param token The generated token
  */
-export async function createChat(
-  createChatForm: CreateChatFormFields,
-  token: string
-) {
+export async function createChat(createChatForm: CreateChatFormFields) {
+  const token = getBrowserCookie('token');
+
   return fetch(CHAT_API_PATH, {
     method: 'post',
     body: JSON.stringify(createChatForm),
@@ -26,7 +25,9 @@ export async function createChat(
 /**
  * This function handles making an api call to fetch a user's group chats.
  */
-export async function fetchChats(token: string) {
+export async function fetchChats() {
+  const token = getBrowserCookie('token');
+
   return fetch(CHAT_API_PATH, {
     method: 'get',
     headers: {

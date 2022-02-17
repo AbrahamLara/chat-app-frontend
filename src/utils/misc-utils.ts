@@ -43,3 +43,7 @@ export interface ChatItem {
 export function getBrowserCookie(name: string) {
   return Vue.$cookies.get(name);
 }
+
+export function cloneObject(object: Record<string, any>) {
+  return JSON.parse(JSON.stringify(object));
+}

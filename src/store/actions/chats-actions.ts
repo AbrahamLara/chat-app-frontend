@@ -1,11 +1,12 @@
-import Vue from 'vue';
 import { ActionTree } from 'vuex';
 import { AppState, ChatsState } from '@/store/store-states';
 import {
-  ADD_CHAT,
+  EMIT_CHAT_CREATED,
   CREATE_CHAT,
   FETCH_CHATS,
+  SET_CHAT,
   SET_CHATS_LIST,
+  SET_CURRENT_CHAT_ID,
 } from '@/store/constants/chats-constants';
 import {
   CREATE_CHAT_SUCCESS_MESSAGE,
@@ -23,12 +24,15 @@ import alertsActions from '@/store/actions/alerts-actions';
 const chatsActions: ActionTree<ChatsState, AppState> = {
   [CREATE_CHAT]: async ({ commit }, createChatForm: CreateChatFormFields) => {
     try {
-      const token = Vue.$cookies.get('token');
-      const response = await createChat(createChatForm, token);
+      const response = await createChat(createChatForm);
       const data = await response.json();
 
       if (response.ok) {
-        commit(ADD_CHAT, data.chat);
+        commit(EMIT_CHAT_CREATED, {
+          chat: data.chat,
+          memberIDs: createChatForm.userIDs,
+        });
+        commit(SET_CHAT, data.chat);
         commit(ADD_SUCCESS, createAlertMessage(CREATE_CHAT_SUCCESS_MESSAGE));
       } else if (isFormErrorMessage(data)) {
         commit(SET_ERRORS, data);
@@ -42,8 +46,7 @@ const chatsActions: ActionTree<ChatsState, AppState> = {
   },
   [FETCH_CHATS]: async ({ commit }) => {
     try {
-      const token = Vue.$cookies.get('token');
-      const response = await fetchChats(token);
+      const response = await fetchChats();
       const data = await response.json();
 
       if (response.ok) {
@@ -57,6 +60,9 @@ const chatsActions: ActionTree<ChatsState, AppState> = {
       );
       commit(ADD_ERROR, alertMessage);
     }
+  },
+  [SET_CURRENT_CHAT_ID]: async ({ commit }, chatID: string) => {
+    commit(SET_CURRENT_CHAT_ID, chatID);
   },
   ...alertsActions,
 };
